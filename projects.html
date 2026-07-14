@@ -75,7 +75,7 @@
       <div class="max-w-6xl mx-auto px-6 relative z-10">
         <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
         <h1 class="reveal font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">All Projects</h1>
-        <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">A categorized look at my work across Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging.</p>
+        <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">A categorized look at my work across Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging. Click any video to watch it with sound.</p>
         <div class="reveal flex flex-wrap gap-2">
           <template x-for="f in filterOptions" :key="f.value">
             <button
@@ -103,7 +103,7 @@
               x-transition:leave-start="opacity-100 scale-100"
               x-transition:leave-end="opacity-0 scale-95">
               <article class="project-card group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-                <button @click="open(p)" class="block photo-frame w-full h-52 text-left">
+                <button @click="open(p)" class="block photo-frame w-full h-52 text-left" :aria-label="'Open ' + p.title">
                   <template x-if="p.video">
                     <video class="w-full h-full object-cover" autoplay muted loop playsinline :src="p.video"></video>
                   </template>
@@ -123,7 +123,7 @@
                     <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors" x-text="p.title"></h3>
                   </button>
                   <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4" x-text="p.desc"></p>
-                  <button @click="open(p)" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nav-link">View project →</button>
+                  <button @click="open(p)" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nav-link">View details →</button>
                 </div>
               </article>
             </div>
@@ -149,23 +149,39 @@
         </div>
       </div>
     </section>
+
+    <!-- Media lightbox (video with sound + image full) -->
+    <div x-show="lb.open" x-cloak class="fixed inset-0 z-[70] flex items-center justify-center" @keydown.escape.window="lb.open=false">
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="lb.open=false" x-transition.opacity></div>
+      <div class="relative z-10 max-w-5xl w-full px-4">
+        <button @click="lb.open=false" class="absolute -top-12 right-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <template x-if="lb.type==='video'">
+          <video x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full rounded-2xl shadow-2xl" :src="lb.src" controls autoplay playsinline @ended="lb.open=false"></video>
+        </template>
+        <template x-if="lb.type==='image'">
+          <img x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" :src="lb.src" alt="Project preview">
+        </template>
+      </div>
+    </div>
   </main>
 
-  <!-- ═══ PROJECT MODAL ═══ -->
+  <!-- ═══ PROJECT MODAL (details + video with sound) ═══ -->
   <div x-show="modalOpen" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center p-4" aria-modal="true" role="dialog">
     <div x-show="modalOpen" x-transition.opacity class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="modalOpen=false"></div>
     <div x-show="modalOpen" x-transition
       class="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800">
       <template x-if="selected">
         <div>
-          <div class="photo-frame w-full h-56 md:h-64 rounded-t-3xl">
+          <button @click="lb={open:true,type: selected.video?'video':'image', src: selected.video || selected.img}" class="photo-frame w-full h-56 md:h-64 rounded-t-3xl bg-zinc-900 block text-left" aria-label="Open full view">
             <template x-if="selected.video">
-              <video class="w-full h-full object-cover" autoplay muted loop playsinline :src="selected.video"></video>
+              <video class="w-full h-full object-cover" controls autoplay playsinline :src="selected.video"></video>
             </template>
             <template x-if="!selected.video">
               <img :src="selected.img" :alt="selected.title" class="w-full h-full object-cover"/>
             </template>
-          </div>
+          </button>
           <div class="p-7 md:p-9">
             <div class="flex items-start justify-between gap-4 mb-4">
               <div>
@@ -199,7 +215,10 @@
                 <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.outcomes"></p>
               </div>
             </div>
-            <a href="index.html#contact" class="inline-flex items-center gap-2 btn-primary bg-accent text-white font-medium px-6 py-3 rounded-full hover:bg-accent-light transition-colors mt-7">Start a similar project →</a>
+            <div class="flex flex-col sm:flex-row gap-3 mt-7">
+              <a :href="'case-study.html?id=' + selected.id" class="inline-flex items-center justify-center gap-2 btn-primary bg-accent text-white font-medium px-6 py-3 rounded-full hover:bg-accent-light transition-colors">Read the full case study →</a>
+              <a href="index.html#contact" class="inline-flex items-center justify-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-6 py-3 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">Start a similar project</a>
+            </div>
           </div>
         </div>
       </template>
@@ -222,9 +241,10 @@
         filter: 'all',
         modalOpen: false,
         selected: null,
+        lb:{open:false,type:'',src:''},
 
         filterOptions: [
-          { value: 'all',        label: 'All (12)' },
+          { value: 'all',        label: 'All (10)' },
           { value: 'logo',       label: 'Logo Design' },
           { value: 'brand',      label: 'Brand Identity' },
           { value: 'social',     label: 'Social Media' },
@@ -236,7 +256,7 @@
 
         allProjects: [
           { id:1, title:'Aurora Monogram', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Monogram'], img:'img/work%205.PNG', year:'2025',
-            desc:'A refined monogram mark for a creative studio.',
+            desc:'A refined monogram mark for a creative studio — clean, scalable and memorable.',
             overview:'A geometric monogram built from the studio initials, designed to work as an app icon, watermark and embossed print mark.',
             objective:'Create a memorable, scalable logomark that reads clearly at small sizes.',
             tools:['Adobe Illustrator','Adobe Photoshop'],
@@ -245,13 +265,13 @@
 
           { id:2, title:'Vertex Wordmark', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Wordmark'], img:'img/work%206.PNG', year:'2024',
             desc:'A bold typographic wordmark for a tech startup.',
-            overview:'A custom letterform wordmark with tight kerning and a distinctive cut, giving the startup an confident, modern identity.',
+            overview:'A custom letterform wordmark with tight kerning and a distinctive cut, giving the startup a confident, modern identity.',
             objective:'Deliver a wordmark that feels tech-forward and trustworthy.',
             tools:['Adobe Illustrator'],
             deliverables:'Wordmark, horizontal & stacked lockups, color variants.',
             outcomes:'Used on the product, pitch deck and social avatars.' },
 
-          { id:3, title:'Bloom Naturals Identity', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Guidelines'], img:'img/work%208.png', year:'2025',
+          { id:3, title:'Bloom Naturals Identity', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Guidelines'], img:'img/work%201.jpeg', year:'2025',
             desc:'Full visual identity for a natural skincare brand.',
             overview:'Logo, earthy color palette, serif-led typography and a brand guideline document covering tone, spacing and usage.',
             objective:'Build a warm, premium identity that stands out on shelf and feed.',
@@ -259,15 +279,7 @@
             deliverables:'Logo suite, palette, type system, 12-page brand guide.',
             outcomes:'Brand launched across 8 SKUs and a 20k-follower social account.' },
 
-          { id:4, title:'Pulse Brand System', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Motion-ready'], img:'img/work%201.jpeg', year:'2024',
-            desc:'A flexible brand system for a media company.',
-            overview:'A motion-friendly identity with a variable logo and a vibrant palette designed to animate across video and social.',
-            objective:'Create a system that works equally well static and in motion.',
-            tools:['Adobe Illustrator','Adobe After Effects'],
-            deliverables:'Logo, palette, typography, motion specs.',
-            outcomes:'Unified look across broadcast, web and events.' },
-
-          { id:5, title:'Bloom Social Campaign', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Carousel'], img:'img/work%207.jpeg', year:'2025',
+          { id:4, title:'Bloom Social Campaign', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Carousel'], img:'img/work%207.jpeg', year:'2025',
             desc:'A 12-post carousel campaign for a product launch.',
             overview:'A cohesive set of posts, stories and carousel ads with a clear template system the client can reuse.',
             objective:'Boost engagement and drive launch-week conversions.',
@@ -275,15 +287,7 @@
             deliverables:'12 feed posts, 6 stories, 3 carousel ads.',
             outcomes:'+38% engagement and a sold-out first drop.' },
 
-          { id:6, title:'Pulse Reels Pack', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Reels'], img:'img/work%203.jpeg', year:'2024',
-            desc:'A monthly reels template pack for a media brand.',
-            overview:'On-brand animated templates for tips, quotes and announcements, edited for vertical formats.',
-            objective:'Help the team post consistently without a designer each week.',
-            tools:['CapCut','Adobe Premiere Pro','Instagram Edit'],
-            deliverables:'8 reusable reel templates, intro/outro stings.',
-            outcomes:'Posting frequency doubled with no extra hire.' },
-
-          { id:7, title:'Aurora Logo Reveal', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Animation'], video:'img/work%202.MP4', year:'2025',
+          { id:5, title:'Aurora Logo Reveal', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Animation'], video:'img/work%202.MP4', year:'2025',
             desc:'A 6-second animated logo reveal for a launch.',
             overview:'A smooth logo animation with particle accents and a confident beat, built for intros and event screens.',
             objective:'Make the brand feel alive the moment it appears.',
@@ -291,7 +295,7 @@
             deliverables:'6s logo reveal, 3 aspect ratios, transparent version.',
             outcomes:'Used as the opener for every launch video.' },
 
-          { id:8, title:'Pulse Explainer', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Explainer'], video:'img/work%204.MP4', year:'2024',
+          { id:6, title:'Pulse Explainer', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Explainer'], video:'img/work%204.MP4', year:'2024',
             desc:'A 60-second explainer animation.',
             overview:'A clean 2D explainer that breaks a complex service into simple, animated steps with on-brand typography.',
             objective:'Explain the product in under a minute for the website hero.',
@@ -299,7 +303,7 @@
             deliverables:'60s explainer, captioned version, GIF cuts.',
             outcomes:'Lifted homepage time-on-page by 45%.' },
 
-          { id:9, title:'Product Launch Film', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Commercial'], video:'img/work%2010.MP4', year:'2025',
+          { id:7, title:'Product Launch Film', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Commercial'], video:'img/work%2010.MP4', year:'2025',
             desc:'A 90-second promotional launch film.',
             overview:'Edited from raw footage into a punchy, music-driven story with grading, motion titles and sound design.',
             objective:'Create a hero film that sells the product in the first 10 seconds.',
@@ -307,7 +311,7 @@
             deliverables:'90s film, 30s cutdown, vertical social edit.',
             outcomes:'Featured by the client’s HQ and shared 4k+ times.' },
 
-          { id:10, title:'Event Recap', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Reels'], video:'img/work%209.MP4', year:'2024',
+          { id:8, title:'Event Recap', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Reels'], video:'img/work%209.MP4', year:'2024',
             desc:'A fast-paced event recap video.',
             overview:'A highlight reel edited from a full day of coverage, cut to trending audio with dynamic captions.',
             objective:'Capture the energy of the event for post-show social.',
@@ -315,7 +319,7 @@
             deliverables:'90s recap, 5 story cuts, thumbnail set.',
             outcomes:'Became the client’s most-watched post that quarter.' },
 
-          { id:11, title:'Bloom Brochure', category:'print', categoryLabel:'Print Design', tags:['Print Design','Brochure'], img:'img/work%203.jpeg', year:'2024',
+          { id:9, title:'Bloom Brochure', category:'print', categoryLabel:'Print Design', tags:['Print Design','Brochure'], img:'img/work%203.jpeg', year:'2024',
             desc:'A tri-fold brochure for a natural brand.',
             overview:'A print-ready brochure with careful grid, product photography layout and a calm, premium feel.',
             objective:'Give sales a tangible leave-behind that matches the brand.',
@@ -323,7 +327,7 @@
             deliverables:'Tri-fold brochure, print-ready PDF, bleed specs.',
             outcomes:'Printed in two runs and used at 6 trade shows.' },
 
-          { id:12, title:'Bloom Packaging', category:'packaging', categoryLabel:'Packaging', tags:['Packaging','Print'], img:'img/work%208.png', year:'2025',
+          { id:10, title:'Bloom Packaging', category:'packaging', categoryLabel:'Packaging', tags:['Packaging','Print'], img:'img/work%203.jpeg', year:'2025',
             desc:'Product packaging for a skincare line.',
             overview:'Label and box design with dielines, regulatory copy and a tactile, eco-friendly aesthetic.',
             objective:'Make the product feel premium on a crowded shelf.',

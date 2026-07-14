@@ -166,12 +166,20 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     </div>
   </div>
 
-  <!-- Video lightbox -->
-  <div x-show="vid" x-cloak class="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/85" @click.self="vid=false" x-transition.opacity>
-    <button @click="vid=false" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors" aria-label="Close video">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <video x-show="vid" class="max-w-3xl w-full rounded-2xl shadow-2xl" src="img/work%202.MP4" controls autoplay playsinline @ended="vid=false"></video>
+  <!-- Media lightbox (video with sound + image full) -->
+  <div x-show="lb.open" x-cloak class="fixed inset-0 z-[70] flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="lb.open=false" x-transition.opacity></div>
+    <div class="relative z-10 max-w-5xl w-full px-4">
+      <button @click="lb.open=false" class="absolute -top-12 right-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors" aria-label="Close">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <template x-if="lb.type==='video'">
+        <video x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full rounded-2xl shadow-2xl" :src="lb.src" controls autoplay playsinline @ended="lb.open=false"></video>
+      </template>
+      <template x-if="lb.type==='image'">
+        <img x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" :src="lb.src" alt="Project preview">
+      </template>
+    </div>
   </div>
 </section>
 
@@ -237,7 +245,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 </section>
 
 <!-- ═══ PORTFOLIO ═══ -->
-<section id="portfolio" class="py-24" x-data="{ vid:false }">
+<section id="portfolio" class="py-24" x-data="{ lb:{open:false,type:'',src:''} }" @keydown.escape.window="lb.open=false">
   <div class="max-w-6xl mx-auto px-6">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
       <div>
@@ -250,9 +258,9 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     <div class="grid md:grid-cols-2 gap-6">
 
       <article class="card-h reveal d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent md:row-span-2">
-        <div class="pf w-full h-64 md:h-80">
+        <button @click="lb={open:true,type:'image',src:'img/work%205.PNG'}" class="pf w-full h-64 md:h-80 block text-left" aria-label="View Aurora Studio brand identity full size">
           <img src="img/work%205.PNG" alt="Brand Identity — Kumi Ebenezer Tenkorang" loading="lazy">
-        </div>
+        </button>
         <div class="p-7">
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Logo Design</span>
@@ -262,13 +270,13 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2">Aurora Studio — Brand Identity</h3>
           </a>
           <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">A complete visual identity for a creative studio: logo system, color palette, typography and brand guidelines. Built for memorability and consistency across every channel.</p>
-          <a href="projects.html#brand-identity" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          <a href="projects.html#brand" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
         </div>
       </article>
 
       <article class="card-h reveal d2 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <button @click="vid=true" class="pf w-full h-48 block text-left" aria-label="Play Pulse — Animated Logo Reveal with sound">
-          <video class="w-full h-full object-cover" autoplay muted loop playsinline src="img/work%202.MP4"></video>
+        <button @click="lb={open:true,type:'video',src:'img/work%202.MP4'}" class="pf w-full h-48 block text-left cursor-pointer" aria-label="Play Pulse — Animated Logo Reveal with sound">
+          <video class="w-full h-full object-cover pointer-events-none" autoplay muted loop playsinline src="img/work%202.MP4"></video>
         </button>
         <div class="p-6">
           <div class="flex flex-wrap gap-2 mb-3">
@@ -279,14 +287,14 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Pulse — Animated Logo Reveal</h3>
           </a>
           <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A dynamic logo animation created in Adobe After Effects for a tech startup launch event, with smooth transitions and modern visual effects. Click to watch with sound.</p>
-          <button @click="vid=true" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Watch with sound →</button>
+          <button @click="lb={open:true,type:'video',src:'img/work%202.MP4'}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Watch with sound →</button>
         </div>
       </article>
 
       <article class="card-h reveal d3 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="pf w-full h-48">
+        <button @click="lb={open:true,type:'image',src:'img/work%207.jpeg'}" class="pf w-full h-48 block text-left" aria-label="View Bloom social campaign full size">
           <img src="img/work%207.jpeg" alt="Social Media Design — Campaign" loading="lazy">
-        </div>
+        </button>
         <div class="p-6">
           <div class="flex flex-wrap gap-2 mb-3">
             <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Social Media</span>
@@ -296,7 +304,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Bloom — Social Media Campaign</h3>
           </a>
           <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A set of eye-catching posts, stories and carousel ads designed to boost engagement and drive conversions for a lifestyle brand.</p>
-          <a href="projects.html#social-media" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project →</a>
+          <a href="projects.html#social" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project →</a>
         </div>
       </article>
 

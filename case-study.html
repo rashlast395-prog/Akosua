@@ -1,24 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{
-  dark: localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches),
-  scrolled: false,
-  mobileMenu: false,
-  progress: 0
-}" :class="{'dark':dark}" x-init="
-  $watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
-  window.addEventListener('scroll', () => {
-    scrolled = window.scrollY > 20;
-    progress = Math.min(100, Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100));
-  }, { passive: true });
-" class="scroll-smooth">
+<html lang="en" x-data="article()" :class="{'dark':dark}" x-init="init()" class="scroll-smooth">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Aurora Studio — Brand Identity case study by Kumi Ebenezer Tenkorang. How a full visual identity system built a memorable, consistent brand."/>
+  <title>Case Study — Kumi Ebenezer Tenkorang</title>
+  <meta name="description" content="Project case study by Kumi Ebenezer Tenkorang — Creative Designer. Overview, objective, tools, deliverables and outcomes for each design."/>
   <meta name="author" content="Kumi Ebenezer Tenkorang"/>
-  <meta property="og:title" content="Aurora Studio — Brand Identity · Case Study by Kumi"/>
   <meta property="og:type" content="article"/>
-  <title>Aurora Studio — Brand Identity · Case Study — Kumi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -27,12 +15,7 @@
   <script>
     tailwind.config = {
       darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { display: ['PT Sans','sans-serif'], body: ['DM Sans','sans-serif'] },
-          colors: { accent: '#FF6B2B', 'accent-light': '#FF8F5C' }
-        }
-      }
+      theme: { extend: { fontFamily: { display: ['PT Sans','sans-serif'], body: ['DM Sans','sans-serif'] }, colors: { accent: '#FF6B2B', 'accent-light': '#FF8F5C' } } }
     }
   </script>
   <style>
@@ -51,12 +34,11 @@
     [x-cloak]{display:none!important;}
     .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
     .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
-    .progress-bar{position:fixed;top:0;left:0;height:3px;background:#FF6B2B;z-index:100;transition:width .1s linear;}
+    .photo-frame video{width:100%;height:100%;object-fit:cover;display:block;}
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);}
     .reveal.visible{opacity:1;transform:translateY(0);}
     .d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}
-    .prose-cs h2{font-family:'PT Sans',sans-serif;font-size:1.55rem;font-weight:700;margin:2.75rem 0 1rem;line-height:1.25;}
-    .prose-cs h3{font-family:'PT Sans',sans-serif;font-size:1.15rem;font-weight:700;margin:2rem 0 .6rem;line-height:1.3;color:#FF6B2B;}
+    .prose-cs h2{font-family:'PT Sans',sans-serif;font-size:1.55rem;font-weight:700;margin:2.5rem 0 1rem;line-height:1.25;}
     .prose-cs p{margin:0 0 1.4rem;line-height:1.82;color:#52525b;}
     .dark .prose-cs p{color:#a1a1aa;}
     .prose-cs ul{margin:0 0 1.4rem 1.5rem;list-style:disc;}
@@ -76,8 +58,6 @@
   </style>
 </head>
 <body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
-
-  <div class="progress-bar" :style="`width:${progress}%`" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress"></div>
 
   <header class="fixed top-0.5 left-0 right-0 z-50 transition-all duration-300"
     :class="scrolled ? 'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5' : 'bg-transparent'">
@@ -103,7 +83,7 @@
         </button>
       </div>
     </nav>
-    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+    <div x-show="mobileMenu" x-cloak x-transition class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
       <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium" role="list">
         <li><a href="index.html#about" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">About</a></li>
         <li><a href="index.html#services" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Services</a></li>
@@ -113,279 +93,94 @@
     </div>
   </header>
 
-  <main>
+  <main x-cloak>
+    <template x-if="p">
+      <article>
+        <header class="pt-32 pb-10 max-w-4xl mx-auto px-6">
+          <a href="projects.html" class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+            Back to projects
+          </a>
 
-    <article>
-      <header class="pt-32 pb-10 max-w-4xl mx-auto px-6">
-
-        <a href="projects.html" class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors mb-8">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
-          Back to projects
-        </a>
-
-        <div class="flex flex-wrap items-center gap-3 mb-6">
-          <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">Brand Identity</span>
-          <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-full">Logo Design</span>
-          <span class="text-xs text-zinc-400 ml-1">2025 · 4 weeks</span>
-        </div>
-
-        <h1 class="reveal font-display font-bold text-4xl md:text-5xl lg:text-6xl text-zinc-900 dark:text-white leading-tight mb-6">
-          Aurora Studio — Brand Identity
-        </h1>
-
-        <p class="reveal d1 text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-10 max-w-2xl">
-          A complete visual identity for a creative studio — logo system, color palette, typography and brand guidelines. The goal: a timeless, memorable identity that works everywhere from a business card to a billboard.
-        </p>
-
-        <div class="reveal d2 grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t border-b border-zinc-100 dark:border-zinc-900">
-          <div>
-            <p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Client</p>
-            <p class="font-medium text-zinc-900 dark:text-white text-sm">Aurora Studio</p>
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full" x-text="p.categoryLabel"></span>
+            <span class="text-xs text-zinc-400 ml-1" x-text="p.year"></span>
           </div>
-          <div>
-            <p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Role</p>
-            <p class="font-medium text-zinc-900 dark:text-white text-sm">Creative Designer</p>
+
+          <h1 class="reveal font-display font-bold text-4xl md:text-5xl lg:text-6xl text-zinc-900 dark:text-white leading-tight mb-6" x-text="p.title"></h1>
+          <p class="reveal d1 text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-10 max-w-2xl" x-text="p.overview"></p>
+
+          <div class="reveal d2 grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t border-b border-zinc-100 dark:border-zinc-900">
+            <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Category</p><p class="font-medium text-zinc-900 dark:text-white text-sm" x-text="p.categoryLabel"></p></div>
+            <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Role</p><p class="font-medium text-zinc-900 dark:text-white text-sm">Creative Designer</p></div>
+            <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Year</p><p class="font-medium text-zinc-900 dark:text-white text-sm" x-text="p.year"></p></div>
+            <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Deliverables</p><p class="font-medium text-zinc-900 dark:text-white text-sm" x-text="p.deliverables"></p></div>
           </div>
-          <div>
-            <p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Timeline</p>
-            <p class="font-medium text-zinc-900 dark:text-white text-sm">Jan – Feb 2025</p>
-          </div>
-          <div>
-            <p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Deliverables</p>
-            <p class="font-medium text-zinc-900 dark:text-white text-sm">AI, ID, PDF</p>
+        </header>
+
+        <div class="max-w-6xl mx-auto px-6 mb-16">
+          <div class="reveal photo-frame w-full h-72 md:h-[480px] rounded-3xl bg-zinc-900">
+            <template x-if="p.video">
+              <video class="w-full h-full object-cover" controls autoplay playsinline :src="p.video"></video>
+            </template>
+            <template x-if="!p.video">
+              <img :src="p.img" :alt="p.title" loading="eager" class="w-full h-full object-cover"/>
+            </template>
           </div>
         </div>
-      </header>
 
-      <div class="max-w-6xl mx-auto px-6 mb-16">
-        <div class="reveal photo-frame w-full h-72 md:h-[480px] rounded-3xl">
-          <img src="img/work%205.PNG" alt="Aurora Studio brand identity hero" loading="eager"/>
+        <div class="max-w-3xl mx-auto px-6 pb-4 prose-cs">
+          <h2>Overview</h2>
+          <p x-text="p.overview"></p>
+
+          <h2>Objective</h2>
+          <p x-text="p.objective"></p>
+
+          <h2>Tools used</h2>
+          <ul>
+            <template x-for="t in p.tools" :key="t"><li x-text="t"></li></template>
+          </ul>
+
+          <h2>Deliverables</h2>
+          <p x-text="p.deliverables"></p>
+
+          <h2>Outcomes</h2>
+          <p x-text="p.outcomes"></p>
+
+          <h2>My process on this project</h2>
+          <p>Every project follows the same six-step approach — Discover, Research, Develop Concepts, Design &amp; Refine, Present for Feedback, and Deliver Final Files — adapted to the needs of this specific brief.</p>
+
+          <blockquote>
+            <p>"I approach each brief with creativity, strategic thinking and attention to detail so the work is memorable, functional and visually engaging."</p>
+          </blockquote>
+
+          <hr/>
+          <p><em>Want a project like this? <a href="index.html#contact">Get in touch</a>.</em></p>
         </div>
-      </div>
-
-      <div class="max-w-4xl mx-auto px-6 mb-16">
-        <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="stat-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-5 pl-6">
-            <p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">12</p>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-snug">Page brand guide</p>
-          </div>
-          <div class="stat-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-5 pl-6">
-            <p class="font-display font-bold text-3xl text-accent">+38%</p>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-snug">Social engagement</p>
-          </div>
-          <div class="stat-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-5 pl-6">
-            <p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">8</p>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-snug">SKUs launched</p>
-          </div>
-          <div class="stat-card bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-5 pl-6">
-            <p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">1</p>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-snug">Cohesive system</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="max-w-3xl mx-auto px-6 pb-4 prose-cs">
-
-        <h2>The brief</h2>
-        <p>Aurora Studio is a small Accra-based creative studio with strong work but no consistent visual identity. They were using a mismatched logo, three different fonts and colors picked per project. They needed a single, flexible system they could apply themselves across print and social.</p>
-        <p>My mandate: build a brand identity that feels premium, works in motion, and is easy for a non-designer to use day to day.</p>
-
-        <blockquote>
-          <p>"We had the talent, but we looked like five different companies. We needed one face that people would remember."</p>
-        </blockquote>
-
-        <h2>Discovery & research</h2>
-        <h3>Audience & competitors</h3>
-        <p>I interviewed the two founders and reviewed 14 competitor studios. Three things stood out: the market favored either cold/minimal or loud/playful — nobody owned "warm but premium". That became the positioning.</p>
-        <ul>
-          <li>Audience: local brands and international clients wanting African-led creative</li>
-          <li>Competitors skewed minimal-neutral or maximalist-loud</li>
-          <li>The gap: a confident, earthy, human identity</li>
-        </ul>
-
-        <h3>Design direction</h3>
-        <p>From the research I set three principles:</p>
-      </div>
-
-      <div class="max-w-5xl mx-auto px-6 mb-12">
-        <div class="reveal grid md:grid-cols-3 gap-5">
-          <div class="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
-            <div class="w-10 h-10 bg-orange-50 dark:bg-zinc-800 rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-            </div>
-            <h3 class="font-display font-bold text-zinc-900 dark:text-white mb-2" style="font-size:1rem;margin:0 0 .5rem;color:inherit;">Memorable</h3>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed" style="margin:0;color:inherit;">One strong idea carried through every touchpoint so the brand is recognizable instantly.</p>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
-            <div class="w-10 h-10 bg-orange-50 dark:bg-zinc-800 rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
-            </div>
-            <h3 class="font-display font-bold text-zinc-900 dark:text-white mb-2" style="font-size:1rem;margin:0 0 .5rem;color:inherit;">Flexible</h3>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed" style="margin:0;color:inherit;">A system with clear rules but room to adapt across print, social and motion.</p>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
-            <div class="w-10 h-10 bg-orange-50 dark:bg-zinc-800 rounded-xl flex items-center justify-center mb-4">
-              <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <h3 class="font-display font-bold text-zinc-900 dark:text-white mb-2" style="font-size:1rem;margin:0 0 .5rem;color:inherit;">Motion-ready</h3>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed" style="margin:0;color:inherit;">Shapes and palette chosen so the logo and assets animate cleanly in video and reels.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="max-w-3xl mx-auto px-6 pb-4 prose-cs">
-        <h2>Process</h2>
-        <h3>Week 1 · Discovery & concepts</h3>
-        <p>Founder interviews, competitor audit, then three distinct concept directions — monogram-led, wordmark-led, and symbol-led. The studio chose to combine a monogram with a flexible wordmark.</p>
-      </div>
-
-      <div class="max-w-4xl mx-auto px-6 mb-12">
-        <div class="reveal space-y-4">
-          <div class="flex gap-5 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
-            <div class="step-badge shrink-0 mt-0.5">1</div>
-            <div>
-              <p class="font-display font-bold text-zinc-900 dark:text-white mb-1">Discover &amp; research</p>
-              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Founder interviews and a 14-competitor audit to find the positioning gap.</p>
-            </div>
-          </div>
-          <div class="flex gap-5 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
-            <div class="step-badge shrink-0 mt-0.5">2</div>
-            <div>
-              <p class="font-display font-bold text-zinc-900 dark:text-white mb-1">Concept directions</p>
-              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Three routes presented; the monogram + wordmark combo was selected.</p>
-            </div>
-          </div>
-          <div class="flex gap-5 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
-            <div class="step-badge shrink-0 mt-0.5">3</div>
-            <div>
-              <p class="font-display font-bold text-zinc-900 dark:text-white mb-1">Build the system</p>
-              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Logo suite, earthy palette, serif-led type pairing and a motion-ready spec.</p>
-            </div>
-          </div>
-          <div class="flex gap-5 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
-            <div class="step-badge shrink-0 mt-0.5">4</div>
-            <div>
-              <p class="font-display font-bold text-zinc-900 dark:text-white mb-1">Guidelines &amp; handoff</p>
-              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">A 12-page brand guide with templates so the team can self-serve day to day.</p>
-            </div>
-          </div>
-          <div class="flex gap-5 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800">
-            <div class="step-badge shrink-0 mt-0.5">5</div>
-            <div>
-              <p class="font-display font-bold text-zinc-900 dark:text-white mb-1">Apply &amp; launch</p>
-              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Rolled out across social, print and a launch reel; trained the team on the toolkit.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="max-w-5xl mx-auto px-6 mb-12">
-        <div class="reveal grid md:grid-cols-2 gap-4">
-          <div>
-            <div class="photo-frame w-full h-52 rounded-2xl">
-              <img src="img/work%206.PNG" alt="Logo system exploration" loading="lazy"/>
-            </div>
-            <p class="img-caption mt-2" style="font-size:.8rem;color:#a1a1aa;text-align:center;margin-top:.6rem;">Logo system — monogram, wordmark and lockups</p>
-          </div>
-          <div>
-            <div class="photo-frame w-full h-52 rounded-2xl">
-              <img src="img/work%208.png" alt="Packaging and print application" loading="lazy"/>
-            </div>
-            <p class="img-caption mt-2" style="font-size:.8rem;color:#a1a1aa;text-align:center;margin-top:.6rem;">Application — packaging and print materials</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="max-w-3xl mx-auto px-6 pb-16 prose-cs">
-
-        <h2>Key design decisions</h2>
-        <h3>An earthy, premium palette</h3>
-        <p>The old brand used whatever color fit the brief. I built a fixed palette — warm clay, deep forest and soft cream — so every post and print piece feels related at a glance.</p>
-
-        <h3>A serif-led type pairing</h3>
-        <p>A confident serif for headlines gives warmth and authority; a clean sans for body keeps things legible. The pairing reads "premium" without being cold.</p>
-
-        <h3>Motion-ready shapes</h3>
-        <p>The monogram's geometry was chosen so it animates cleanly. The launch reel used the same palette and shapes, making the brand feel alive the moment it appears.</p>
-
-        <h2>Results</h2>
-        <ul>
-          <li><strong>Social engagement:</strong> +38% in the first month after rollout</li>
-          <li><strong>SKUs launched:</strong> 8 products shipped with consistent packaging</li>
-          <li><strong>Team autonomy:</strong> the studio now posts without a designer each week</li>
-          <li><strong>Recognition:</strong> a single, recognizable identity across every channel</li>
-        </ul>
-
-        <blockquote>
-          <p>"Kumi gave us one face we're proud of. We finally look like the studio we always were inside."</p>
-        </blockquote>
-
-        <h2>Reflections</h2>
-        <p>The biggest lesson: a brand system is only as good as its guidelines. The templates and 12-page guide are what made this stick — without them, the team would have drifted back to old habits within a month.</p>
-        <p>If I were to do it again, I'd include motion templates from day one rather than teaching them later. The reel was the moment the brand truly clicked, and we could have shipped it faster.</p>
-
-        <hr/>
-        <p><em>Want a brand like this? <a href="index.html#contact">Get in touch</a> — I'm available for new projects.</em></p>
-
-      </div>
-    </article>
+      </article>
+    </template>
 
     <section class="bg-zinc-50 dark:bg-zinc-900/50 py-16">
       <div class="max-w-6xl mx-auto px-6">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white">More projects</h2>
-          <a href="projects.html" class="text-sm font-medium text-accent nav-link hidden md:block">View all →</a>
-        </div>
+        <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">More projects</h2>
         <div class="grid md:grid-cols-3 gap-6">
-
-          <article class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-            <div class="photo-frame w-full h-44">
-              <img src="img/work%202.MP4" alt="Motion Graphics" loading="lazy">
-            </div>
-            <div class="p-5">
-              <div class="flex gap-2 mb-2">
-                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">Motion Graphics</span>
-              </div>
-              <a href="projects.html#motion">
-                <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Aurora Logo Reveal</h3>
+          <template x-for="m in moreProjects" :key="m.id">
+            <article class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+              <a :href="'case-study.html?id=' + m.id" class="photo-frame block w-full h-44">
+                <template x-if="m.video"><video class="w-full h-full object-cover" muted loop playsinline :src="m.video"></video></template>
+                <template x-if="!m.video"><img :src="m.img" :alt="m.title" loading="lazy" class="w-full h-full object-cover"/></template>
               </a>
-              <a href="projects.html#motion" class="text-sm font-medium text-accent nav-link">View project →</a>
-            </div>
-          </article>
-
-          <article class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-            <div class="photo-frame w-full h-44">
-              <img src="img/work%207.jpeg" alt="Social Media Design" loading="lazy">
-            </div>
-            <div class="p-5">
-              <div class="flex gap-2 mb-2">
-                <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-full">Social Media</span>
+              <div class="p-5">
+                <div class="flex gap-2 mb-2">
+                  <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full" x-text="m.categoryLabel"></span>
+                </div>
+                <a :href="'case-study.html?id=' + m.id">
+                  <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors" x-text="m.title"></h3>
+                </a>
+                <a :href="'case-study.html?id=' + m.id" class="text-sm font-medium text-accent nav-link">Read article →</a>
               </div>
-              <a href="projects.html#social">
-                <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Bloom Social Campaign</h3>
-              </a>
-              <a href="projects.html#social" class="text-sm font-medium text-accent nav-link">View project →</a>
-            </div>
-          </article>
-
-          <article class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-            <div class="photo-frame w-full h-44">
-              <img src="img/work%2010.MP4" alt="Video Editing" loading="lazy">
-            </div>
-            <div class="p-5">
-              <div class="flex gap-2 mb-2">
-                <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-full">Video Editing</span>
-              </div>
-              <a href="projects.html#video">
-                <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Product Launch Film</h3>
-              </a>
-              <a href="projects.html#video" class="text-sm font-medium text-accent nav-link">View project →</a>
-            </div>
-          </article>
-
-        </div>
-        <div class="text-center mt-8 md:hidden">
-          <a href="projects.html" class="text-sm font-medium text-accent">View all projects →</a>
+            </article>
+          </template>
         </div>
       </div>
     </section>
@@ -399,14 +194,11 @@
             <p class="text-xs font-medium text-accent tracking-widest uppercase mb-4">Ready to start?</p>
             <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4">Got a similar project?</h2>
             <p class="text-zinc-400 max-w-md mx-auto mb-8">I'm available for new projects. Tell me about what you're building and let's see if we're a good fit.</p>
-            <a href="index.html#contact" class="inline-flex items-center gap-2 btn-primary bg-accent text-white font-medium px-8 py-3.5 rounded-full hover:bg-accent-light transition-colors">
-              Start a project →
-            </a>
+            <a href="index.html#contact" class="inline-flex items-center gap-2 btn-primary bg-accent text-white font-medium px-8 py-3.5 rounded-full hover:bg-accent-light transition-colors">Start a project →</a>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
   <footer class="border-t border-zinc-100 dark:border-zinc-900">
@@ -417,12 +209,98 @@
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-  </script>
+    function article() {
+      return {
+        dark: false,
+        scrolled: false,
+        mobileMenu: false,
+        p: null,
+        moreProjects: [],
 
+        projects: [
+          { id:1, title:'Aurora Monogram', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Monogram'], img:'img/work%205.PNG', year:'2025',
+            overview:'A geometric monogram built from the studio initials, designed to work as an app icon, watermark and embossed print mark.',
+            objective:'Create a memorable, scalable logomark that reads clearly at small sizes.',
+            tools:['Adobe Illustrator','Adobe Photoshop'],
+            deliverables:'Primary logo, monogram, favicon set, black & white versions.',
+            outcomes:'Adopted as the studio’s core mark across web and print.' },
+          { id:2, title:'Vertex Wordmark', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Wordmark'], img:'img/work%206.PNG', year:'2024',
+            overview:'A custom letterform wordmark with tight kerning and a distinctive cut, giving the startup a confident, modern identity.',
+            objective:'Deliver a wordmark that feels tech-forward and trustworthy.',
+            tools:['Adobe Illustrator'],
+            deliverables:'Wordmark, horizontal & stacked lockups, color variants.',
+            outcomes:'Used on the product, pitch deck and social avatars.' },
+          { id:3, title:'Bloom Naturals Identity', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Guidelines'], img:'img/work%201.jpeg', year:'2025',
+            overview:'Logo, earthy color palette, serif-led typography and a brand guideline document covering tone, spacing and usage.',
+            objective:'Build a warm, premium identity that stands out on shelf and feed.',
+            tools:['Adobe Illustrator','Adobe InDesign','Adobe Photoshop'],
+            deliverables:'Logo suite, palette, type system, 12-page brand guide.',
+            outcomes:'Brand launched across 8 SKUs and a 20k-follower social account.' },
+          { id:4, title:'Bloom Social Campaign', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Carousel'], img:'img/work%207.jpeg', year:'2025',
+            overview:'A cohesive set of posts, stories and carousel ads with a clear template system the client can reuse.',
+            objective:'Boost engagement and drive launch-week conversions.',
+            tools:['Adobe Photoshop','CapCut','Instagram Edit'],
+            deliverables:'12 feed posts, 6 stories, 3 carousel ads.',
+            outcomes:'+38% engagement and a sold-out first drop.' },
+          { id:5, title:'Aurora Logo Reveal', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Animation'], video:'img/work%202.MP4', year:'2025',
+            overview:'A smooth logo animation with particle accents and a confident beat, built for intros and event screens.',
+            objective:'Make the brand feel alive the moment it appears.',
+            tools:['Adobe After Effects','Adobe Illustrator'],
+            deliverables:'6s logo reveal, 3 aspect ratios, transparent version.',
+            outcomes:'Used as the opener for every launch video.' },
+          { id:6, title:'Pulse Explainer', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Explainer'], video:'img/work%204.MP4', year:'2024',
+            overview:'A clean 2D explainer that breaks a complex service into simple, animated steps with on-brand typography.',
+            objective:'Explain the product in under a minute for the website hero.',
+            tools:['Adobe After Effects','Adobe Illustrator'],
+            deliverables:'60s explainer, captioned version, GIF cuts.',
+            outcomes:'Lifted homepage time-on-page by 45%.' },
+          { id:7, title:'Product Launch Film', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Commercial'], video:'img/work%2010.MP4', year:'2025',
+            overview:'Edited from raw footage into a punchy, music-driven story with grading, motion titles and sound design.',
+            objective:'Create a hero film that sells the product in the first 10 seconds.',
+            tools:['Adobe Premiere Pro','Adobe After Effects','CapCut'],
+            deliverables:'90s film, 30s cutdown, vertical social edit.',
+            outcomes:'Featured by the client’s HQ and shared 4k+ times.' },
+          { id:8, title:'Event Recap', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Reels'], video:'img/work%209.MP4', year:'2024',
+            overview:'A highlight reel edited from a full day of coverage, cut to trending audio with dynamic captions.',
+            objective:'Capture the energy of the event for post-show social.',
+            tools:['Adobe Premiere Pro','CapCut'],
+            deliverables:'90s recap, 5 story cuts, thumbnail set.',
+            outcomes:'Became the client’s most-watched post that quarter.' },
+          { id:9, title:'Bloom Brochure', category:'print', categoryLabel:'Print Design', tags:['Print Design','Brochure'], img:'img/work%203.jpeg', year:'2024',
+            overview:'A print-ready brochure with careful grid, product photography layout and a calm, premium feel.',
+            objective:'Give sales a tangible leave-behind that matches the brand.',
+            tools:['Adobe InDesign','Adobe Photoshop'],
+            deliverables:'Tri-fold brochure, print-ready PDF, bleed specs.',
+            outcomes:'Printed in two runs and used at 6 trade shows.' },
+          { id:10, title:'Bloom Packaging', category:'packaging', categoryLabel:'Packaging', tags:['Packaging','Print'], img:'img/work%203.jpeg', year:'2025',
+            overview:'Label and box design with dielines, regulatory copy and a tactile, eco-friendly aesthetic.',
+            objective:'Make the product feel premium on a crowded shelf.',
+            tools:['Adobe Illustrator','Adobe InDesign','Adobe Photoshop'],
+            deliverables:'Box & label artwork, dielines, print specs.',
+            outcomes:'Helped secure two new retail listings.' },
+        ],
+
+        init() {
+          this.dark = localStorage.getItem('theme') === 'dark'
+            || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+          const id = new URLSearchParams(location.search).get('id');
+          const found = this.projects.find(x => String(x.id) === String(id));
+          this.p = found || this.projects[0];
+          this.moreProjects = this.projects.filter(x => x.id !== this.p.id).slice(0, 3);
+
+          window.addEventListener('scroll', () => { this.scrolled = window.scrollY > 20; }, { passive: true });
+
+          this.$nextTick(() => {
+            const obs = new IntersectionObserver(entries => {
+              entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+            }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+          });
+        }
+      }
+    }
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
