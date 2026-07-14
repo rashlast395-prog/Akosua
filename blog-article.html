@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+./ <!DOCTYPE html>
 <html lang="en" x-data="{ dark: localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches), scrolled:false, mobileMenu:false, progress:0 }" :class="{'dark':dark}" x-init="$watch('dark',v=>localStorage.setItem('theme',v?'dark':'light'));window.addEventListener('scroll',()=>{scrolled=window.scrollY>20;progress=Math.min(100,Math.round((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100));},{passive:true})" class="scroll-smooth">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Why I ditched heavy CSS frameworks for Tailwind — Eliott's blog"/>
-  <meta name="author" content="Eliott"/>
-  <meta property="og:title" content="Why I ditched heavy CSS frameworks for Tailwind — Eliott"/>
+  <meta name="description" content="Why I ditched heavy CSS frameworks for Tailwind — Kumi's blog"/>
+  <meta name="author" content="Kumi Ebenezer Tenkorang"/>
+  <meta property="og:title" content="Why I ditched heavy CSS frameworks for Tailwind — Kumi"/>
   <meta property="og:type" content="article"/>
-  <title>Why I ditched heavy CSS frameworks for Tailwind — Eliott</title>
+  <title>Why I ditched heavy CSS frameworks for Tailwind — Kumi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -71,7 +71,7 @@
     :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
     <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
       <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10">
-        <span class="text-zinc-900 dark:text-white">eli</span><span class="text-accent">ott</span>
+        <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
       </a>
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium" role="list">
         <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
@@ -125,11 +125,11 @@
         <!-- Author -->
         <div class="flex items-center gap-4 py-6 border-t border-b border-zinc-100 dark:border-zinc-900">
           <div class="photo-frame w-12 h-12 rounded-full shrink-0">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Eliott" loading="lazy"/>
+            <img src="img/work%208.png" alt="Kumi Ebenezer Tenkorang" loading="lazy"/>
           </div>
           <div>
-            <p class="font-medium text-zinc-900 dark:text-white text-sm">Eliott</p>
-            <p class="text-xs text-zinc-500">UI/UX Designer &amp; Frontend Developer</p>
+            <p class="font-medium text-zinc-900 dark:text-white text-sm">Kumi Ebenezer Tenkorang</p>
+            <p class="text-xs text-zinc-500">Creative Designer</p>
           </div>
           <div class="ml-auto flex gap-3">
             <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-accent hover:border-accent transition-colors" aria-label="Share on Twitter">
@@ -251,7 +251,7 @@
 
   <footer class="border-t border-zinc-100 dark:border-zinc-900">
     <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-zinc-400">© <span id="yr"></span> Eliott. All rights reserved. <br> Developed by <a href="https://lbegey78.gumroad.com/" target="_blank" class="font-bold">Laurent Begey</a> • Distributed by <a href="https://themewagon.com/" target="_blank" class="font-bold">ThemeWagon</a></p>
+      <p class="text-sm text-zinc-400">© <span id="yr"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
       <p class="text-xs text-zinc-500">Built with <a href="https://tailwindcss.com" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Tailwind CSS</a> &amp; <a href="https://alpinejs.dev" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Alpine.js</a></p>
     </div>
   </footer>

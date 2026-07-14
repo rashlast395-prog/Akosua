@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Projects — Eliott</title>
+  <title>Projects — Kumi Ebenezer Tenkorang</title>
+  <meta name="description" content="Portfolio of Kumi Ebenezer Tenkorang — Creative Designer. Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging."/>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
@@ -17,6 +18,7 @@
     .nav-link{position:relative;}
     .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.4,0,.2,1);}
     .nav-link:hover::after{width:100%;}
+    .nav-link.on::after{width:100%;}
     ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#FF6B2B;border-radius:99px;}
     body{transition:background-color .3s,color .3s;}
     body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
@@ -26,6 +28,7 @@
     [x-cloak]{display:none!important;}
     .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
     .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+    .photo-frame video{width:100%;height:100%;object-fit:cover;display:block;}
     .project-card{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .2s;}
     .project-card:hover{transform:translateY(-4px);}
   </style>
@@ -36,13 +39,12 @@
     :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
     <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10">
-        <span class="text-zinc-900 dark:text-white">eli</span><span class="text-accent">ott</span>
+        <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
       </a>
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <li><a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About</a></li>
         <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
         <li><a href="projects.html" class="nav-link text-accent font-medium">Work</a></li>
-        <li><a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About</a></li>
-        <li><a href="blog.html" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Blog</a></li>
         <li><a href="index.html#contact" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Contact</a></li>
       </ul>
       <div class="flex items-center gap-3">
@@ -59,10 +61,9 @@
     </nav>
     <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
       <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
+        <li><a href="index.html#about" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">About</a></li>
         <li><a href="index.html#services" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Services</a></li>
         <li><a href="projects.html" class="block text-accent font-medium">Work</a></li>
-        <li><a href="index.html#about" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">About</a></li>
-        <li><a href="blog.html" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Blog</a></li>
         <li><a href="index.html#contact" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Contact</a></li>
       </ul>
     </div>
@@ -74,11 +75,12 @@
       <div class="max-w-6xl mx-auto px-6 relative z-10">
         <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
         <h1 class="reveal font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">All Projects</h1>
-        <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">A complete look at my work across UI/UX design, frontend development and landing pages.</p>
+        <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">A categorized look at my work across Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging.</p>
         <div class="reveal flex flex-wrap gap-2">
           <template x-for="f in filterOptions" :key="f.value">
             <button
               @click="filter = f.value"
+              :id="f.value"
               :class="filter === f.value ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
               class="text-sm px-4 py-1.5 rounded-full border transition-colors"
               x-text="f.label">
@@ -90,13 +92,6 @@
 
     <section class="pb-24">
       <div class="max-w-6xl mx-auto px-6">
-        <!--
-          CORRECTIF : on itere sur TOUS les projets, x-show + x-transition gerent
-          la visibilite de chaque carte. L'ancienne version utilisait x-for sur
-          filteredProjects (computed), ce qui forcait un re-render complet du DOM
-          a chaque changement de filtre — detruisant les classes .reveal et cachant
-          tout le contenu.
-        -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <template x-for="p in allProjects" :key="p.id">
             <div
@@ -108,9 +103,14 @@
               x-transition:leave-start="opacity-100 scale-100"
               x-transition:leave-end="opacity-0 scale-95">
               <article class="project-card group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-                <a :href="p.url" class="block photo-frame w-full h-52">
-                  <img :src="p.img" :alt="p.title" loading="lazy"/>
-                </a>
+                <button @click="open(p)" class="block photo-frame w-full h-52 text-left">
+                  <template x-if="p.video">
+                    <video class="w-full h-full object-cover" autoplay muted loop playsinline :src="p.video"></video>
+                  </template>
+                  <template x-if="!p.video">
+                    <img :src="p.img" :alt="p.title" loading="lazy"/>
+                  </template>
+                </button>
                 <div class="p-6">
                   <div class="flex flex-wrap gap-2 mb-3">
                     <template x-for="tag in p.tags" :key="tag">
@@ -119,14 +119,11 @@
                         x-text="tag"></span>
                     </template>
                   </div>
-                  <a :href="p.url">
+                  <button @click="open(p)" class="text-left w-full">
                     <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors" x-text="p.title"></h3>
-                  </a>
+                  </button>
                   <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4" x-text="p.desc"></p>
-                  <div class="flex items-center justify-between">
-                    <a :href="p.url" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nav-link">View project →</a>
-                    <span class="text-xs text-zinc-400" x-text="p.year"></span>
-                  </div>
+                  <button @click="open(p)" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nav-link">View project →</button>
                 </div>
               </article>
             </div>
@@ -154,9 +151,64 @@
     </section>
   </main>
 
+  <!-- ═══ PROJECT MODAL ═══ -->
+  <div x-show="modalOpen" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center p-4" aria-modal="true" role="dialog">
+    <div x-show="modalOpen" x-transition.opacity class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="modalOpen=false"></div>
+    <div x-show="modalOpen" x-transition
+      class="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800">
+      <template x-if="selected">
+        <div>
+          <div class="photo-frame w-full h-56 md:h-64 rounded-t-3xl">
+            <template x-if="selected.video">
+              <video class="w-full h-full object-cover" autoplay muted loop playsinline :src="selected.video"></video>
+            </template>
+            <template x-if="!selected.video">
+              <img :src="selected.img" :alt="selected.title" class="w-full h-full object-cover"/>
+            </template>
+          </div>
+          <div class="p-7 md:p-9">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div>
+                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full" x-text="selected.categoryLabel"></span>
+                <h2 class="font-display font-bold text-2xl md:text-3xl text-zinc-900 dark:text-white mt-3" x-text="selected.title"></h2>
+              </div>
+              <button @click="modalOpen=false" class="w-9 h-9 shrink-0 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" aria-label="Close">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+            <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6" x-text="selected.overview"></p>
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Objective</p>
+                <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.objective"></p>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Tools used</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <template x-for="t in selected.tools" :key="t">
+                    <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-2.5 py-1 rounded-full" x-text="t"></span>
+                  </template>
+                </div>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Deliverables</p>
+                <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.deliverables"></p>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Outcomes</p>
+                <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.outcomes"></p>
+              </div>
+            </div>
+            <a href="index.html#contact" class="inline-flex items-center gap-2 btn-primary bg-accent text-white font-medium px-6 py-3 rounded-full hover:bg-accent-light transition-colors mt-7">Start a similar project →</a>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+
   <footer class="border-t border-zinc-100 dark:border-zinc-900">
     <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-zinc-400">&copy; <span id="year"></span> Eliott. All rights reserved.</p>
+      <p class="text-sm text-zinc-400">&copy; <span id="year"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
       <p class="text-xs text-zinc-500">Built with Tailwind CSS &amp; Alpine.js</p>
     </div>
   </footer>
@@ -168,26 +220,123 @@
         scrolled: false,
         mobileMenu: false,
         filter: 'all',
+        modalOpen: false,
+        selected: null,
 
         filterOptions: [
-          { value: 'all',       label: 'All (9)' },
-          { value: 'saas',      label: 'SaaS' },
-          { value: 'landing',   label: 'Landing page' },
-          { value: 'agency',    label: 'Agency' },
-          { value: 'ecommerce', label: 'E-commerce' },
+          { value: 'all',        label: 'All (12)' },
+          { value: 'logo',       label: 'Logo Design' },
+          { value: 'brand',      label: 'Brand Identity' },
+          { value: 'social',     label: 'Social Media' },
+          { value: 'motion',     label: 'Motion Graphics' },
+          { value: 'video',      label: 'Video Editing' },
+          { value: 'print',      label: 'Print Design' },
+          { value: 'packaging',  label: 'Packaging' },
         ],
 
         allProjects: [
-          { id:1,  title:'Novu — SaaS Dashboard',  category:'saas',      categoryLabel:'SaaS',         tags:['SaaS','Figma','Tailwind'],           year:'2025', desc:'Complete redesign of a B2B notification platform. Reduced cognitive load by 40% and improved trial-to-paid conversion.',    img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&q=80',  url:'case-study.html' },
-          { id:2,  title:'Finlo — Fintech App',    category:'landing',   categoryLabel:'Landing page', tags:['Landing page','Fintech','Alpine.js'], year:'2024', desc:'Marketing site and onboarding flow for a personal finance app targeting young professionals.',                              img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80', url:'case-study.html' },
-          { id:3,  title:'Orea — Creative Agency', category:'agency',    categoryLabel:'Agency',       tags:['Agency','Animation'],                year:'2024', desc:'Bold editorial site for a Paris-based branding studio. Scroll-driven animations and custom cursor.',                      img:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&q=80', url:'case-study.html' },
-          { id:4,  title:'Vesta — Real Estate',    category:'landing',   categoryLabel:'Landing page', tags:['Landing page','Real Estate'],         year:'2024', desc:'Conversion-focused landing page for a proptech startup entering the French market.',                                      img:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=80',  url:'case-study.html' },
-          { id:5,  title:'Arkio — SaaS Analytics', category:'saas',      categoryLabel:'SaaS',         tags:['SaaS','Dashboard','Figma'],           year:'2024', desc:'Data visualisation dashboard for a B2B analytics platform. Designed for clarity at high data density.',                img:'https://images.unsplash.com/photo-1581472723648-909f4851d4ae?w=700&q=80', url:'case-study.html' },
-          { id:6,  title:'Bloom — E-commerce',     category:'ecommerce', categoryLabel:'E-commerce',   tags:['E-commerce','Shopify'],               year:'2023', desc:'Custom Shopify theme for a sustainable cosmetics brand. Mobile-first with high emphasis on product imagery.',           img:'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=700&q=80',  url:'case-study.html' },
-          { id:7,  title:'Mira — Health App',      category:'landing',   categoryLabel:'Landing page', tags:['Landing page','Health','Tailwind'],   year:'2023', desc:'App landing page for a mental wellness startup. Warm, accessible design with strong social proof.',                    img:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=700&q=80', url:'case-study.html' },
-          { id:8,  title:'Noto — Agency Rebrand',  category:'agency',    categoryLabel:'Agency',       tags:['Agency','Rebrand'],                  year:'2023', desc:'Full rebrand and website for a digital communications agency in Lyon.',                                                img:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80', url:'case-study.html' },
-          { id:9,  title:'Kova — E-commerce',      category:'ecommerce', categoryLabel:'E-commerce',   tags:['E-commerce','Figma'],                year:'2023', desc:'Product page redesign and checkout optimisation for a DTC furniture brand. Reduced cart abandonment by 18%.',         img:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=80',  url:'case-study.html' },
+          { id:1, title:'Aurora Monogram', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Monogram'], img:'img/work%205.PNG', year:'2025',
+            desc:'A refined monogram mark for a creative studio.',
+            overview:'A geometric monogram built from the studio initials, designed to work as an app icon, watermark and embossed print mark.',
+            objective:'Create a memorable, scalable logomark that reads clearly at small sizes.',
+            tools:['Adobe Illustrator','Adobe Photoshop'],
+            deliverables:'Primary logo, monogram, favicon set, black & white versions.',
+            outcomes:'Adopted as the studio’s core mark across web and print.' },
+
+          { id:2, title:'Vertex Wordmark', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Wordmark'], img:'img/work%206.PNG', year:'2024',
+            desc:'A bold typographic wordmark for a tech startup.',
+            overview:'A custom letterform wordmark with tight kerning and a distinctive cut, giving the startup an confident, modern identity.',
+            objective:'Deliver a wordmark that feels tech-forward and trustworthy.',
+            tools:['Adobe Illustrator'],
+            deliverables:'Wordmark, horizontal & stacked lockups, color variants.',
+            outcomes:'Used on the product, pitch deck and social avatars.' },
+
+          { id:3, title:'Bloom Naturals Identity', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Guidelines'], img:'img/work%208.png', year:'2025',
+            desc:'Full visual identity for a natural skincare brand.',
+            overview:'Logo, earthy color palette, serif-led typography and a brand guideline document covering tone, spacing and usage.',
+            objective:'Build a warm, premium identity that stands out on shelf and feed.',
+            tools:['Adobe Illustrator','Adobe InDesign','Adobe Photoshop'],
+            deliverables:'Logo suite, palette, type system, 12-page brand guide.',
+            outcomes:'Brand launched across 8 SKUs and a 20k-follower social account.' },
+
+          { id:4, title:'Pulse Brand System', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Motion-ready'], img:'img/work%201.jpeg', year:'2024',
+            desc:'A flexible brand system for a media company.',
+            overview:'A motion-friendly identity with a variable logo and a vibrant palette designed to animate across video and social.',
+            objective:'Create a system that works equally well static and in motion.',
+            tools:['Adobe Illustrator','Adobe After Effects'],
+            deliverables:'Logo, palette, typography, motion specs.',
+            outcomes:'Unified look across broadcast, web and events.' },
+
+          { id:5, title:'Bloom Social Campaign', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Carousel'], img:'img/work%207.jpeg', year:'2025',
+            desc:'A 12-post carousel campaign for a product launch.',
+            overview:'A cohesive set of posts, stories and carousel ads with a clear template system the client can reuse.',
+            objective:'Boost engagement and drive launch-week conversions.',
+            tools:['Adobe Photoshop','CapCut','Instagram Edit'],
+            deliverables:'12 feed posts, 6 stories, 3 carousel ads.',
+            outcomes:'+38% engagement and a sold-out first drop.' },
+
+          { id:6, title:'Pulse Reels Pack', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Reels'], img:'img/work%203.jpeg', year:'2024',
+            desc:'A monthly reels template pack for a media brand.',
+            overview:'On-brand animated templates for tips, quotes and announcements, edited for vertical formats.',
+            objective:'Help the team post consistently without a designer each week.',
+            tools:['CapCut','Adobe Premiere Pro','Instagram Edit'],
+            deliverables:'8 reusable reel templates, intro/outro stings.',
+            outcomes:'Posting frequency doubled with no extra hire.' },
+
+          { id:7, title:'Aurora Logo Reveal', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Animation'], video:'img/work%202.MP4', year:'2025',
+            desc:'A 6-second animated logo reveal for a launch.',
+            overview:'A smooth logo animation with particle accents and a confident beat, built for intros and event screens.',
+            objective:'Make the brand feel alive the moment it appears.',
+            tools:['Adobe After Effects','Adobe Illustrator'],
+            deliverables:'6s logo reveal, 3 aspect ratios, transparent version.',
+            outcomes:'Used as the opener for every launch video.' },
+
+          { id:8, title:'Pulse Explainer', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Explainer'], video:'img/work%204.MP4', year:'2024',
+            desc:'A 60-second explainer animation.',
+            overview:'A clean 2D explainer that breaks a complex service into simple, animated steps with on-brand typography.',
+            objective:'Explain the product in under a minute for the website hero.',
+            tools:['Adobe After Effects','Adobe Illustrator'],
+            deliverables:'60s explainer, captioned version, GIF cuts.',
+            outcomes:'Lifted homepage time-on-page by 45%.' },
+
+          { id:9, title:'Product Launch Film', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Commercial'], video:'img/work%2010.MP4', year:'2025',
+            desc:'A 90-second promotional launch film.',
+            overview:'Edited from raw footage into a punchy, music-driven story with grading, motion titles and sound design.',
+            objective:'Create a hero film that sells the product in the first 10 seconds.',
+            tools:['Adobe Premiere Pro','Adobe After Effects','CapCut'],
+            deliverables:'90s film, 30s cutdown, vertical social edit.',
+            outcomes:'Featured by the client’s HQ and shared 4k+ times.' },
+
+          { id:10, title:'Event Recap', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Reels'], video:'img/work%209.MP4', year:'2024',
+            desc:'A fast-paced event recap video.',
+            overview:'A highlight reel edited from a full day of coverage, cut to trending audio with dynamic captions.',
+            objective:'Capture the energy of the event for post-show social.',
+            tools:['Adobe Premiere Pro','CapCut'],
+            deliverables:'90s recap, 5 story cuts, thumbnail set.',
+            outcomes:'Became the client’s most-watched post that quarter.' },
+
+          { id:11, title:'Bloom Brochure', category:'print', categoryLabel:'Print Design', tags:['Print Design','Brochure'], img:'img/work%203.jpeg', year:'2024',
+            desc:'A tri-fold brochure for a natural brand.',
+            overview:'A print-ready brochure with careful grid, product photography layout and a calm, premium feel.',
+            objective:'Give sales a tangible leave-behind that matches the brand.',
+            tools:['Adobe InDesign','Adobe Photoshop'],
+            deliverables:'Tri-fold brochure, print-ready PDF, bleed specs.',
+            outcomes:'Printed in two runs and used at 6 trade shows.' },
+
+          { id:12, title:'Bloom Packaging', category:'packaging', categoryLabel:'Packaging', tags:['Packaging','Print'], img:'img/work%208.png', year:'2025',
+            desc:'Product packaging for a skincare line.',
+            overview:'Label and box design with dielines, regulatory copy and a tactile, eco-friendly aesthetic.',
+            objective:'Make the product feel premium on a crowded shelf.',
+            tools:['Adobe Illustrator','Adobe InDesign','Adobe Photoshop'],
+            deliverables:'Box & label artwork, dielines, print specs.',
+            outcomes:'Helped secure two new retail listings.' },
         ],
+
+        open(p) {
+          this.selected = p;
+          this.modalOpen = true;
+          document.body.style.overflow = 'hidden';
+        },
 
         get visibleCount() {
           if (this.filter === 'all') return this.allProjects.length;
@@ -197,6 +346,10 @@
         init() {
           this.dark = localStorage.getItem('theme') === 'dark'
             || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+          this.$watch('modalOpen', v => { if (!v) document.body.style.overflow = ''; });
+
+          window.addEventListener('keydown', e => { if (e.key === 'Escape' && this.modalOpen) this.modalOpen = false; });
 
           window.addEventListener('scroll', () => {
             this.scrolled = window.scrollY > 20;
