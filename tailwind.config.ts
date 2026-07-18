@@ -10,18 +10,41 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["Space Grotesk", "system-ui", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
       },
       colors: {
-        accent: "#FF6B2B",
-        "accent-light": "#FF8F5C",
+        accent: {
+          DEFAULT: "#FF6B2B",
+          light: "#FF8F5C",
+          dark: "#E2551A",
+        },
         surface: "var(--surface)",
+        "surface-2": "var(--surface-2)",
+        border: "var(--border)",
+        ink: {
+          DEFAULT: "var(--text)",
+          secondary: "var(--text-secondary)",
+          muted: "var(--text-muted)",
+        },
+      },
+      maxWidth: {
+        container: "76rem",
+      },
+      borderRadius: {
+        sm: "0.75rem",
+        md: "1.25rem",
+        lg: "1.75rem",
+        xl: "2.5rem",
+      },
+      boxShadow: {
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        lg: "var(--shadow-lg)",
+        glow: "0 8px 30px var(--accent-glow)",
       },
       keyframes: {
-        "loader-fill": {
-          to: { width: "100%" },
-        },
+        "loader-fill": { to: { width: "100%" } },
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
@@ -29,14 +52,6 @@ const config: Config = {
         float: {
           "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
           "50%": { transform: "translateY(-18px) rotate(1.5deg)" },
-        },
-        "float-reverse": {
-          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
-          "50%": { transform: "translateY(14px) rotate(-1deg)" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
         },
         grain: {
           "0%, 100%": { transform: "translate(0, 0)" },
@@ -51,12 +66,11 @@ const config: Config = {
         "loader-fill": "loader-fill 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         marquee: "marquee 32s linear infinite",
         float: "float 8s ease-in-out infinite",
-        "float-reverse": "float-reverse 10s ease-in-out infinite",
-        shimmer: "shimmer 1.8s linear infinite",
         grain: "grain 8s steps(10) infinite",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
 };
+
 export default config;

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { projects, projectCategories } from "@/lib/data/projects";
+import { projects } from "@/lib/data/projects";
 import PortfolioSection from "@/components/sections/portfolio-section";
 
 export const metadata: Metadata = {

@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-
-gsap.registerPlugin(ScrollTrigger);
+import { Section, SectionHeading, Reveal } from "@/components/ui";
+import { Badge } from "@/components/ui/badge";
+import { tools } from "@/lib/data/tools";
 
 const skills = [
   "Graphic Design",
@@ -24,49 +22,12 @@ const skills = [
 ];
 
 export default function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || !sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray(".skill-tag").forEach((tag, i) => {
-        gsap.fromTo(
-          tag as gsap.TweenTarget,
-          { opacity: 0, scale: 0.8 },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 0.4,
-            delay: i * 0.03,
-            ease: "back.out(1.7)",
-            scrollTrigger: {
-              trigger: tag as Element,
-              start: "top 90%",
-            },
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [mounted]);
-
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="py-24 bg-zinc-50/60 dark:bg-zinc-900/40"
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+    <Section id="about" alt>
+      <div className="grid md:grid-cols-2 gap-16 items-center">
+        <Reveal>
           <div className="order-2 md:order-1">
-            <div className="relative aspect-square max-w-sm mx-auto rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+            <div className="relative aspect-square max-w-sm mx-auto rounded-3xl overflow-hidden bg-surface-2">
               <Image
                 src="/images/work-8.png"
                 alt="Kumi Ebenezer Tenkorang"
@@ -76,43 +37,80 @@ export default function AboutSection() {
               />
             </div>
           </div>
-          <div className="order-1 md:order-2">
-            <p className="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">
-              About me
-            </p>
-            <h2 className="reveal font-display text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white leading-tight mb-6">
-              A bit about who I am
-            </h2>
-            <p className="reveal text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+        </Reveal>
+
+        <div className="order-1 md:order-2">
+          <Reveal>
+            <SectionHeading
+              eyebrow="About me"
+              title="A bit about who I am"
+              description="Creative designer based in Accra, Ghana — turning ideas into visual stories that resonate."
+            />
+          </Reveal>
+
+          <Reveal delay={1}>
+            <p className="text-ink-secondary leading-relaxed mb-4">
               Hello! I&apos;m Kumi Ebenezer Tenkorang, a passionate Creative Designer
               dedicated to transforming ideas into compelling visual experiences.
               My work spans branding, graphic design, motion graphics and video
-              editing.
+              editing. Every project is approached with creativity, strategic
+              thinking and attention to detail so that businesses and individuals
+              can communicate their message effectively.
             </p>
-            <p className="reveal text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">
+          </Reveal>
+          <Reveal delay={2}>
+            <p className="text-ink-secondary leading-relaxed mb-8">
               I strive to deliver designs that are memorable, functional and
               visually engaging. Based in Accra, Ghana, I help brands tell
               compelling stories through graphic design, motion graphics, video
               editing and brand identity.
             </p>
-            <div className="reveal">
-              <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-3">
+          </Reveal>
+
+          <Reveal delay={3}>
+            <div className="mb-10">
+              <p className="text-xs font-medium text-ink-muted uppercase tracking-widest mb-3">
                 Skills
               </p>
               <div className="flex flex-wrap gap-2" role="list">
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="skill-tag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent transition-colors"
+                    className="text-sm bg-surface border border-border text-ink-secondary px-3.5 py-1.5 rounded-full hover:border-accent transition-colors"
+                    role="listitem"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
+
+          <Reveal delay={4}>
+            <div>
+              <p className="text-xs font-medium text-ink-muted uppercase tracking-widest mb-4">
+                Tools I use
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {tools.map((tool) => (
+                  <div
+                    key={tool.id}
+                    className="card rounded-xl p-5 text-center"
+                  >
+                    <p className="font-display font-bold text-base text-ink mb-1">
+                      {tool.name}
+                    </p>
+                    <p className="text-xs text-accent font-medium mb-2">
+                      {tool.level}
+                    </p>
+                    <p className="text-xs text-ink-muted">{tool.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

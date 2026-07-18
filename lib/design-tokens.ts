@@ -2,8 +2,10 @@ export const designTokens = {
   colors: {
     accent: "#FF6B2B",
     accentLight: "#FF8F5C",
+    accentDark: "#E2551A",
     accentGlow: "rgba(255, 107, 43, 0.35)",
-    background: "var(--bg)",
+    bg: "var(--bg)",
+    bgAlt: "var(--bg-alt)",
     surface: "var(--surface)",
     border: "var(--border)",
     text: "var(--text)",
@@ -11,13 +13,13 @@ export const designTokens = {
     textMuted: "var(--text-muted)",
   },
   typography: {
-    display: ["Space Grotesk", "system-ui", "sans-serif"],
-    body: ["Inter", "system-ui", "sans-serif"],
+    display: ["var(--font-display)", "system-ui", "sans-serif"],
+    body: ["var(--font-body)", "system-ui", "sans-serif"],
   },
   spacing: {
-    section: "py-24",
-    container: "max-w-7xl",
-    gutter: "px-6",
+    section: "clamp(4.5rem, 9vw, 8rem)",
+    container: "var(--container)",
+    gutter: "1.5rem",
   },
   radii: {
     sm: "0.75rem",

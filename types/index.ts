@@ -29,6 +29,7 @@ export interface BlogPost {
   readTime: string;
   author: string;
   image: string;
+  featured?: boolean;
 }
 
 export interface Testimonial {
@@ -51,4 +52,17 @@ export interface ProcessStep {
   id: number;
   title: string;
   description: string;
+}
+
+export interface Tool {
+  id: number;
+  name: string;
+  level: string;
+  description: string;
+}
+
+export interface FAQItem {
+  id: number;
+  question: string;
+  answer: string;
 }

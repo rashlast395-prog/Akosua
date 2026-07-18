@@ -250,3 +250,78 @@ export const projectCategories = [
   { value: "print", label: "Print Design" },
   { value: "packaging", label: "Packaging" },
 ] as const;
+
+export const services = [
+  {
+    id: 1,
+    title: "Graphic Design",
+    description:
+      "Marketing materials, posters, flyers, banners and digital graphics that capture attention and communicate your message clearly.",
+    icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    id: 2,
+    title: "Brand Identity",
+    description:
+      "Logos, color palettes, typography and brand guidelines that make your brand memorable and consistent across every touchpoint.",
+    icon: "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01",
+  },
+  {
+    id: 3,
+    title: "Motion Graphics",
+    description:
+      "Logo animations, explainer animations and social animations that bring your brand to life with movement and energy.",
+    icon: "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z",
+  },
+  {
+    id: 4,
+    title: "Video Editing",
+    description:
+      "Promotional videos, reels, YouTube editing and commercials that tell compelling stories and drive real engagement.",
+    icon: "M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z",
+  },
+  {
+    id: 5,
+    title: "Social Media Design",
+    description:
+      "Posts, stories, ads and carousels crafted to stop the scroll and build meaningful connections with your audience.",
+    icon: "M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z",
+  },
+  {
+    id: 6,
+    title: "Print Design",
+    description:
+      "Brochures, business cards, packaging and banners designed for maximum impact both online and offline.",
+    icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9a2 2 0 00-2 2v1m-4 9v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5a2 2 0 00-2 2z",
+  },
+] as const;
+
+export const testimonials = [
+  {
+    id: 1,
+    quote:
+      "Kumi built our full brand identity from scratch — logo, palette, guidelines — and it completely transformed how customers see us. Thoughtful, strategic and a joy to work with.",
+    name: "Ama Owusu",
+    role: "Founder, Bloom Naturals",
+    avatar: "https://i.pravatar.cc/80?img=11",
+    rating: 5,
+  },
+  {
+    id: 2,
+    quote:
+      "Working with Kumi is a dream. He asks the right questions, moves fast, and the final result always exceeds what we imagined. Our best creative hire of the year.",
+    name: "Kwame Mensah",
+    role: "Marketing Lead, Pulse",
+    avatar: "https://i.pravatar.cc/80?img=52",
+    rating: 5,
+  },
+  {
+    id: 3,
+    quote:
+      "We had a tight deadline for our product launch video. Kumi turned it around with motion graphics and edits that looked premium. Zero hand-holding needed.",
+    name: "Esi Baffoe",
+    role: "Creative Director, Aurora Studio",
+    avatar: "https://i.pravatar.cc/80?img=47",
+    rating: 5,
+  },
+] as const;

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { Section, SectionHeading, Reveal, Badge } from "@/components/ui";
 
 const blogPosts = [
   {
@@ -57,38 +58,27 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div className="pt-24">
-      <section className="pb-16 relative overflow-hidden">
-        <div
-          className="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none"
-          aria-hidden="true"
+      <Section alt>
+        <SectionHeading
+          eyebrow="Writing"
+          title="The Blog"
+          description="Thoughts on design, frontend, and the realities of freelancing. No fluff."
         />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <p className="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">
-            Writing
-          </p>
-          <h1 className="reveal font-display text-5xl md:text-6xl font-bold text-zinc-900 dark:text-white leading-tight mb-4">
-            The Blog
-          </h1>
-          <p className="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
-            Thoughts on UI/UX design, frontend development, and the realities of
-            full-time freelancing. No fluff.
-          </p>
-        </div>
-      </section>
 
-      <section className="pb-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-6">
-            {blogPosts.map((post, index) => (
+        <div className="grid md:grid-cols-3 gap-6">
+          {blogPosts.map((post, index) => (
+            <Reveal
+              key={post.id}
+              delay={((index % 3) + 1) as 1 | 2 | 3}
+            >
               <article
-                key={post.id}
-                className={`reveal group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-all duration-300 hover:shadow-lg ${
+                className={`card rounded-2xl overflow-hidden border border-border hover:border-accent transition-all duration-300 hover:shadow-md ${
                   index === 0 ? "md:col-span-3 md:grid-cols-2 md:grid" : ""
                 }`}
               >
                 <Link
                   href={`/blog/${post.slug}`}
-                  className={`block relative overflow-hidden bg-zinc-100 dark:bg-zinc-800 ${
+                  className={`block relative overflow-hidden bg-surface-2 ${
                     index === 0 ? "md:h-full min-h-[300px]" : "h-44"
                   }`}
                 >
@@ -102,39 +92,37 @@ export default function BlogPage() {
                 </Link>
                 <div className={`p-6 ${index === 0 ? "md:p-12 md:flex md:flex-col md:justify-center" : ""}`}>
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                    <span className="text-xs text-zinc-400 flex items-center gap-1">
+                    <Badge accent>{post.category}</Badge>
+                    <span className="text-xs text-ink-muted flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
                       {post.date}
                     </span>
-                    <span className="text-xs text-zinc-400 flex items-center gap-1">
+                    <span className="text-xs text-ink-muted flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {post.readTime}
                     </span>
                   </div>
                   <Link href={`/blog/${post.slug}`}>
-                    <h3 className="font-display text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+                    <h3 className="font-display text-lg md:text-xl font-bold text-ink mb-2 group-hover:text-accent transition-colors">
                       {post.title}
                     </h3>
                   </Link>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                  <p className="text-sm text-ink-secondary leading-relaxed mb-4">
                     {post.excerpt}
                   </p>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white hover:text-accent transition-colors"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-ink hover:text-accent transition-colors"
                   >
                     Read article
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </article>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
