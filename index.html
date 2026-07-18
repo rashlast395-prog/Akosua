@@ -141,13 +141,28 @@
 <body class="antialiased">
 
   <!-- Loader -->
-  <div class="loader" aria-hidden="true">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="opacity:0.9">
+  <div id="loader" style="position:fixed;inset:0;z-index:100000;background:#ffffff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.25rem;transition:opacity 0.45s ease,visibility 0.45s ease;" aria-hidden="true">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="opacity:0.9" aria-hidden="true">
       <circle cx="26" cy="26" r="22" stroke="#e5e5e5" stroke-width="3"/>
       <path d="M26 4a22 22 0 0 1 16 7" stroke="#FF6B2B" stroke-width="3" stroke-linecap="round"/>
     </svg>
-    <div class="loader-bar"></div>
+    <div style="width:120px;height:2px;background:#e5e5e5;border-radius:99px;overflow:hidden;position:relative;">
+      <div style="position:absolute;left:0;top:0;height:100%;width:0;background:#FF6B2B;border-radius:99px;animation:loaderFill 1.4s cubic-bezier(0.22,1,0.36,1) forwards;"></div>
+    </div>
   </div>
+
+  <style>
+    @keyframes loaderFill { to { width: 100%; } }
+  </style>
+
+  <script>
+    try {
+      setTimeout(() => {
+        const el = document.getElementById('loader');
+        if (el) { el.style.opacity = '0'; el.style.visibility = 'hidden'; el.style.pointerEvents = 'none'; document.body.style.overflow = ''; setTimeout(() => { try { if (el.parentNode) el.remove(); } catch(e){} }, 400); }
+      }, 2500);
+    } catch(e) { console.error('Inline loader fallback error:', e); }
+  </script>
 
   <!-- Cursor -->
   <div class="cursor-dot" aria-hidden="true"></div>
@@ -617,6 +632,15 @@
   </footer>
 
   <script src="js/components/loader.js"></script>
+  <script>
+    try {
+      const fallback = setTimeout(() => {
+        const el = document.getElementById('loader');
+        if (el) { el.style.opacity = '0'; el.style.visibility = 'hidden'; el.style.pointerEvents = 'none'; document.body.style.overflow = ''; setTimeout(() => { try { if (el.parentNode) el.remove(); } catch(e){} }, 400); }
+      }, 3200);
+      window.addEventListener('load', () => clearTimeout(fallback), { once: true });
+    } catch(e) { console.error('Inline loader fallback error:', e); }
+  </script>
   <script src="js/components/cursor.js"></script>
   <script src="js/animations/particles.js"></script>
   <script src="js/animations/scroll.js"></script>
@@ -626,6 +650,13 @@
   <script src="js/components/magnetic.js"></script>
   <script src="js/components/reveal.js"></script>
   <script>
+    try {
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+      window.scrollTo = (options) => {
+        if (window.__lenis) window.__lenis.scrollTo(options);
+        else window.scroll(options);
+      };
+    } catch (e) { console.error('GSAP init error:', e); }
     try {
       document.getElementById('year').textContent = new Date().getFullYear();
       animateCounters();

@@ -89,6 +89,7 @@ html.lenis, html.lenis body { height: auto; }
 .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .loader-bar {
   width: 120px; height: 2px; background: var(--border); border-radius: 99px; overflow: hidden;
+  position: relative;
 }
 .loader-bar::after {
   content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0;

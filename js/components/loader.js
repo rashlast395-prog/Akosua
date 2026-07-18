@@ -1,31 +1,29 @@
-/* Robust loader with fallback timeout */
+/* Robust loader with forced hide */
 (function () {
-  const LOADER_FALLBACK_MS = 5000;
-  const loader = document.createElement('div');
-  loader.className = 'loader';
-  loader.setAttribute('aria-hidden', 'true');
-  loader.innerHTML = `
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="opacity:0.9" aria-hidden="true">
-      <circle cx="26" cy="26" r="22" stroke="#e5e5e5" stroke-width="3"/>
-      <path d="M26 4a22 22 0 0 1 16 7" stroke="#FF6B2B" stroke-width="3" stroke-linecap="round"/>
-    </svg>
-    <div class="loader-bar"></div>
-  `;
-  document.body.appendChild(loader);
-  document.body.style.overflow = 'hidden';
+  try {
+    const LOADER_FALLBACK_MS = 2800;
+    const loader = document.getElementById('loader');
+    if (!loader) return;
 
-  let loaded = false;
-  const hide = () => {
-    if (loaded) return;
-    loaded = true;
-    loader.classList.add('hidden');
-    document.body.style.overflow = '';
-    setTimeout(() => { if (loader.parentNode) loader.remove(); }, 700);
-  };
+    let done = false;
+    const hide = () => {
+      if (done) return;
+      done = true;
+      try {
+        loader.style.transition = 'opacity 0.35s ease, visibility 0.35s ease';
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        loader.style.pointerEvents = 'none';
+      } catch (e) {}
+      try { document.body.style.overflow = ''; } catch ( e) {}
+      setTimeout(() => { try { if (loader.parentNode) loader.remove(); } catch(e){} }, 400);
+    };
 
-  window.addEventListener('load', () => setTimeout(hide, 400));
-  setTimeout(hide, LOADER_FALLBACK_MS);
-
-  window.addEventListener('error', () => hide(), true);
-  window.addEventListener('unhandledrejection', () => hide());
+    setTimeout(hide, LOADER_FALLBACK_MS);
+    window.addEventListener('error', () => hide(), true);
+    window.addEventListener('unhandledrejection', () => hide());
+  } catch ( e) {
+    console.error('[loader] fatal error:',  e);
+    try { document.body.style.overflow = ''; } catch(e){}
+  }
 })();
