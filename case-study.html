@@ -1,70 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" x-data="article()" :class="{'dark':dark}" x-init="init()" class="scroll-smooth">
+<html lang="en" x-data="article()" x-init="init()" :class="{ dark: dark }" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Project case study by Kumi Ebenezer Tenkorang — Creative Designer. Overview, objective, tools, deliverables and outcomes for each design." />
+  <meta name="author" content="Kumi Ebenezer Tenkorang" />
+  <meta property="og:type" content="article" />
   <title>Case Study — Kumi Ebenezer Tenkorang</title>
-  <meta name="description" content="Project case study by Kumi Ebenezer Tenkorang — Creative Designer. Overview, objective, tools, deliverables and outcomes for each design."/>
-  <meta name="author" content="Kumi Ebenezer Tenkorang"/>
-  <meta property="og:type" content="article"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: { extend: { fontFamily: { display: ['PT Sans','sans-serif'], body: ['DM Sans','sans-serif'] }, colors: { accent: '#FF6B2B', 'accent-light': '#FF8F5C' } } }
-    }
+    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['Space Grotesk','system-ui','sans-serif'],body:['Inter','system-ui','sans-serif']},colors:{accent:'#FF6B2B','accent-light':'#FF8F5C'}}}}
   </script>
+
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+
   <style>
-    *,*::before,*::after{box-sizing:border-box;}
-    html{font-family:'DM Sans',sans-serif;}
-    h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif;}
-    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#FF6B2B;border-radius:99px;}
-    body{transition:background-color .3s,color .3s;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
-    .nav-link{position:relative;}
-    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.4,0,.2,1);}
-    .nav-link:hover::after{width:100%;}
-    .btn-primary{position:relative;overflow:hidden;}
-    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1);}
-    .btn-primary:hover::after{left:160%;}
-    [x-cloak]{display:none!important;}
-    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
-    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
-    .photo-frame video{width:100%;height:100%;object-fit:cover;display:block;}
-    .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    .d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}
-    .prose-cs h2{font-family:'PT Sans',sans-serif;font-size:1.55rem;font-weight:700;margin:2.5rem 0 1rem;line-height:1.25;}
-    .prose-cs p{margin:0 0 1.4rem;line-height:1.82;color:#52525b;}
-    .dark .prose-cs p{color:#a1a1aa;}
-    .prose-cs ul{margin:0 0 1.4rem 1.5rem;list-style:disc;}
-    .prose-cs li{margin-bottom:.45rem;line-height:1.7;color:#52525b;}
-    .dark .prose-cs li{color:#a1a1aa;}
-    .prose-cs blockquote{border-left:3px solid #FF6B2B;padding:.75rem 1.25rem;margin:0 0 1.8rem;background:#fff7f4;border-radius:0 8px 8px 0;}
-    .dark .prose-cs blockquote{background:#27272a;}
-    .prose-cs blockquote p{color:#52525b;font-style:italic;margin:0;}
-    .dark .prose-cs blockquote p{color:#a1a1aa;}
-    .prose-cs hr{border:none;border-top:1px solid #e4e4e7;margin:2.5rem 0;}
-    .dark .prose-cs hr{border-top-color:#27272a;}
-    .prose-cs a{color:#FF6B2B;text-decoration:underline;text-underline-offset:3px;}
-    .stat-card{border-left:3px solid #FF6B2B;}
-    .step-badge{width:2rem;height:2rem;min-width:2rem;border-radius:50%;background:#FF6B2B;color:#fff;font-family:'PT Sans',sans-serif;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;}
-    .card-h{transition:transform .28s cubic-bezier(.4,0,.2,1),border-color .18s;}
-    .card-h:hover{transform:translateY(-4px);}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);transition:background-color .35s ease,color .35s ease}
+    h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',system-ui,sans-serif}
+    [x-cloak]{display:none!important}
+
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
+
+    .pf{position:relative;overflow:hidden;background:#d4d4d8}
+    .pf img,.pf video{width:100%;height:100%;object-fit:cover;display:block}
+    .nl{position:relative}
+    .nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.22,1,.36,1)}
+    .nl:hover::after,.nl.on::after{width:100%}
+    .btn-primary{position:relative;overflow:hidden}
+    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:left .5s cubic-bezier(.22,1,.36,1)}
+    .btn-primary:hover::after{left:160%}
+    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7}
+    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+    .photo-frame video{width:100%;height:100%;object-fit:cover;display:block}
+    .card-h{transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .2s}
+    .card-h:hover{transform:translateY(-4px)}
+
+    .prose-cs h2{font-family:'Space Grotesk',system-ui,sans-serif;font-size:1.55rem;font-weight:700;margin:2.5rem 0 1rem;line-height:1.25}
+    .prose-cs p{margin:0 0 1.4rem;line-height:1.82;color:var(--text-secondary)}
+    .dark .prose-cs p{color:#a1a1aa}
+    .prose-cs ul{margin:0 0 1.4rem 1.5rem;list-style:disc}
+    .prose-cs li{margin-bottom:.45rem;line-height:1.7;color:var(--text-secondary)}
+    .dark .prose-cs li{color:#a1a1aa}
+    .prose-cs blockquote{border-left:3px solid #FF6B2B;padding:.75rem 1.25rem;margin:0 0 1.8rem;background:#fff7f4;border-radius:0 8px 8px 0}
+    .dark .prose-cs blockquote{background:#27272a}
+    .prose-cs blockquote p{color:var(--text-secondary);font-style:italic;margin:0}
+    .dark .prose-cs blockquote p{color:#a1a1aa}
+    .prose-cs hr{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
+    .dark .prose-cs hr{border-top-color:#27272a}
+    .prose-cs a{color:#FF6B2B;text-decoration:underline;text-underline-offset:3px}
+
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+    @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
 </head>
-<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
 
-  <header class="fixed top-0.5 left-0 right-0 z-50 transition-all duration-300"
-    :class="scrolled ? 'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5' : 'bg-transparent'">
-    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
-      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10">
-        <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
-      </a>
+<body class="antialiased">
+
+  <!-- Loader -->
+  <div class="loader" aria-hidden="true">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="opacity:0.9" aria-hidden="true">
+      <circle cx="26" cy="26" r="22" stroke="#e5e5e5" stroke-width="3"/>
+      <path d="M26 4a22 22 0 0 1 16 7" stroke="#FF6B2B" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Particles -->
+  <canvas id="particles" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.6"></canvas>
+
+  <!-- Noise -->
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" :class="scrolled ? 'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl shadow-sm shadow-black/5' : 'bg-transparent'">
+    <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10"><span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span></a>
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium" role="list">
         <li><a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About</a></li>
         <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
@@ -72,18 +102,18 @@
         <li><a href="index.html#contact" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Contact</a></li>
       </ul>
       <div class="flex items-center gap-3">
-        <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" :aria-label="dark ? 'Light mode' : 'Dark mode'">
-          <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+        <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
+          <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg x-show="dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
         </button>
         <a href="index.html#contact" class="hidden md:inline-flex items-center gap-2 btn-primary bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Hire me →</a>
         <button @click="mobileMenu=!mobileMenu" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" aria-label="Toggle menu">
-          <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <svg x-show="!mobileMenu" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg x-show="mobileMenu" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </nav>
-    <div x-show="mobileMenu" x-cloak x-transition class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900">
       <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium" role="list">
         <li><a href="index.html#about" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">About</a></li>
         <li><a href="index.html#services" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Services</a></li>
@@ -98,19 +128,16 @@
       <article>
         <header class="pt-32 pb-10 max-w-4xl mx-auto px-6">
           <a href="projects.html" class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors mb-8">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
             Back to projects
           </a>
-
           <div class="flex flex-wrap items-center gap-3 mb-6">
             <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full" x-text="p.categoryLabel"></span>
             <span class="text-xs text-zinc-400 ml-1" x-text="p.year"></span>
           </div>
-
           <h1 class="reveal font-display font-bold text-4xl md:text-5xl lg:text-6xl text-zinc-900 dark:text-white leading-tight mb-6" x-text="p.title"></h1>
-          <p class="reveal d1 text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-10 max-w-2xl" x-text="p.overview"></p>
-
-          <div class="reveal d2 grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t border-b border-zinc-100 dark:border-zinc-900">
+          <p class="reveal reveal-d1 text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-10 max-w-2xl" x-text="p.overview"></p>
+          <div class="reveal reveal-d2 grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t border-b border-zinc-100 dark:border-zinc-900">
             <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Category</p><p class="font-medium text-zinc-900 dark:text-white text-sm" x-text="p.categoryLabel"></p></div>
             <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Role</p><p class="font-medium text-zinc-900 dark:text-white text-sm">Creative Designer</p></div>
             <div><p class="text-xs text-zinc-400 uppercase tracking-widest mb-1">Year</p><p class="font-medium text-zinc-900 dark:text-white text-sm" x-text="p.year"></p></div>
@@ -132,36 +159,25 @@
         <div class="max-w-3xl mx-auto px-6 pb-4 prose-cs">
           <h2>Overview</h2>
           <p x-text="p.overview"></p>
-
           <h2>Objective</h2>
           <p x-text="p.objective"></p>
-
           <h2>Tools used</h2>
-          <ul>
-            <template x-for="t in p.tools" :key="t"><li x-text="t"></li></template>
-          </ul>
-
+          <ul><template x-for="t in p.tools" :key="t"><li x-text="t"></li></template></ul>
           <h2>Deliverables</h2>
           <p x-text="p.deliverables"></p>
-
           <h2>Outcomes</h2>
           <p x-text="p.outcomes"></p>
-
           <h2>My process on this project</h2>
           <p>Every project follows the same six-step approach — Discover, Research, Develop Concepts, Design &amp; Refine, Present for Feedback, and Deliver Final Files — adapted to the needs of this specific brief.</p>
-
-          <blockquote>
-            <p>"I approach each brief with creativity, strategic thinking and attention to detail so the work is memorable, functional and visually engaging."</p>
-          </blockquote>
-
+          <blockquote><p>"I approach each brief with creativity, strategic thinking and attention to detail so the work is memorable, functional and visually engaging."</p></blockquote>
           <hr/>
           <p><em>Want a project like this? <a href="index.html#contact">Get in touch</a>.</em></p>
         </div>
       </article>
     </template>
 
-    <section class="bg-zinc-50 dark:bg-zinc-900/50 py-16">
-      <div class="max-w-6xl mx-auto px-6">
+    <section class="bg-zinc-50/60 dark:bg-zinc-900/50 py-16">
+      <div class="max-w-7xl mx-auto px-6">
         <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">More projects</h2>
         <div class="grid md:grid-cols-3 gap-6">
           <template x-for="m in moreProjects" :key="m.id">
@@ -174,9 +190,7 @@
                 <div class="flex gap-2 mb-2">
                   <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full" x-text="m.categoryLabel"></span>
                 </div>
-                <a :href="'case-study.html?id=' + m.id">
-                  <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors" x-text="m.title"></h3>
-                </a>
+                <a :href="'case-study.html?id=' + m.id"><h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors" x-text="m.title"></h3></a>
                 <a :href="'case-study.html?id=' + m.id" class="text-sm font-medium text-accent nav-link">Read article →</a>
               </div>
             </article>
@@ -186,10 +200,10 @@
     </section>
 
     <section class="py-24">
-      <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-6">
         <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-14 text-center relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-          <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+          <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none"></div>
           <div class="relative z-10">
             <p class="text-xs font-medium text-accent tracking-widest uppercase mb-4">Ready to start?</p>
             <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4">Got a similar project?</h2>
@@ -202,8 +216,8 @@
   </main>
 
   <footer class="border-t border-zinc-100 dark:border-zinc-900">
-    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-zinc-400">© <span id="yr"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
+    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-zinc-400">&copy; <span id="yr"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
       <p class="text-xs text-zinc-500">Built with <a href="https://tailwindcss.com" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Tailwind CSS</a> &amp; <a href="https://alpinejs.dev" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Alpine.js</a></p>
     </div>
   </footer>
@@ -281,16 +295,12 @@
         ],
 
         init() {
-          this.dark = localStorage.getItem('theme') === 'dark'
-            || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
+          this.dark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
           const id = new URLSearchParams(location.search).get('id');
           const found = this.projects.find(x => String(x.id) === String(id));
           this.p = found || this.projects[0];
           this.moreProjects = this.projects.filter(x => x.id !== this.p.id).slice(0, 3);
-
           window.addEventListener('scroll', () => { this.scrolled = window.scrollY > 20; }, { passive: true });
-
           this.$nextTick(() => {
             const obs = new IntersectionObserver(entries => {
               entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
@@ -302,5 +312,14 @@
     }
     document.getElementById('yr').textContent = new Date().getFullYear();
   </script>
+  <script src="js/components/loader.js"></script>
+  <script src="js/components/cursor.js"></script>
+  <script src="js/animations/particles.js"></script>
+  <script src="js/animations/scroll.js"></script>
+  <script src="js/components/navbar.js"></script>
+  <script src="js/components/theme.js"></script>
+  <script src="js/animations/tilt.js"></script>
+  <script src="js/components/magnetic.js"></script>
+  <script src="js/components/reveal.js"></script>
 </body>
 </html>

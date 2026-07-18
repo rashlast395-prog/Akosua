@@ -1,47 +1,96 @@
 <!DOCTYPE html>
-<html lang="en" x-data="projects()" :class="{'dark':dark}" x-init="init()" class="scroll-smooth">
+<html lang="en" x-data="projects()" x-init="init()" :class="{ dark: dark }" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of Kumi Ebenezer Tenkorang — Creative Designer. Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging." />
+  <meta name="author" content="Kumi Ebenezer Tenkorang" />
+  <meta property="og:title" content="Projects — Kumi Ebenezer Tenkorang" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://kumidesign.com/projects.html" />
   <title>Projects — Kumi Ebenezer Tenkorang</title>
-  <meta name="description" content="Portfolio of Kumi Ebenezer Tenkorang — Creative Designer. Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging."/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
-  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['PT Sans','sans-serif'],body:['DM Sans','sans-serif']},colors:{accent:'#FF6B2B','accent-light':'#FF8F5C'}}}}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <script>
+    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['Space Grotesk','system-ui','sans-serif'],body:['Inter','system-ui','sans-serif']},colors:{accent:'#FF6B2B','accent-light':'#FF8F5C'}}}}
+  </script>
+
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+
   <style>
-    *,*::before,*::after{box-sizing:border-box;}
-    html{font-family:'DM Sans',sans-serif;}
-    h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif;}
-    .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    .nav-link{position:relative;}
-    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.4,0,.2,1);}
-    .nav-link:hover::after{width:100%;}
-    .nav-link.on::after{width:100%;}
-    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#FF6B2B;border-radius:99px;}
-    body{transition:background-color .3s,color .3s;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
-    .btn-primary{position:relative;overflow:hidden;}
-    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1);}
-    .btn-primary:hover::after{left:160%;}
-    [x-cloak]{display:none!important;}
-    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
-    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
-    .photo-frame video{width:100%;height:100%;object-fit:cover;display:block;}
-    .project-card{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .2s;}
-    .project-card:hover{transform:translateY(-4px);}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);transition:background-color .35s ease,color .35s ease}
+    h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',system-ui,sans-serif}
+    [x-cloak]{display:none!important}
+
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
+
+    .card-h{transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .2s}
+    .card-h:hover{transform:translateY(-6px)}
+    .pf{position:relative;overflow:hidden;background:#d4d4d8}
+    .pf img,.pf video{width:100%;height:100%;object-fit:cover;display:block}
+    .nl{position:relative}
+    .nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.22,1,.36,1)}
+    .nl:hover::after,.nl.on::after{width:100%}
+    .shimmer{position:relative;overflow:hidden}
+    .shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:left .5s cubic-bezier(.22,1,.36,1)}
+    .shimmer:hover::after{left:160%}
+
+    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7}
+    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+    .photo-frame video{width:100%;height:100%;object-fit:cover;display:block}
+    .project-card{transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .2s}
+    .project-card:hover{transform:translateY(-6px)}
+    .tilt{transform-style:preserve-3d;will-change:transform}
+
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+      .reveal{opacity:1;transform:none}
+    }
   </style>
 </head>
-<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
 
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-    :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
-    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10">
-        <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
-      </a>
-      <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+<body class="antialiased">
+
+  <!-- Loader -->
+  <div class="loader" aria-hidden="true">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="opacity:0.9" aria-hidden="true">
+      <circle cx="26" cy="26" r="22" stroke="#e5e5e5" stroke-width="3"/>
+      <path d="M26 4a22 22 0 0 1 16 7" stroke="#FF6B2B" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Particles -->
+  <canvas id="particles" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.6"></canvas>
+
+  <!-- Noise -->
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl shadow-sm shadow-black/5':'bg-transparent'">
+    <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10"><span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span></a>
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium" role="list">
         <li><a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About</a></li>
         <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
         <li><a href="projects.html" class="nav-link text-accent font-medium">Work</a></li>
@@ -49,18 +98,18 @@
       </ul>
       <div class="flex items-center gap-3">
         <button @click="dark=!dark;localStorage.setItem('theme',dark?'dark':'light')" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
-          <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg x-show="dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
         </button>
-        <a href="index.html#contact" class="hidden md:inline-flex items-center gap-2 btn-primary bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Hire me &rarr;</a>
+        <a href="index.html#contact" class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Hire me &rarr;</a>
         <button @click="mobileMenu=!mobileMenu" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" aria-label="Toggle menu">
-          <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <svg x-show="!mobileMenu" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg x-show="mobileMenu" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </nav>
-    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
-      <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
+    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900">
+      <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium" role="list">
         <li><a href="index.html#about" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">About</a></li>
         <li><a href="index.html#services" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Services</a></li>
         <li><a href="projects.html" class="block text-accent font-medium">Work</a></li>
@@ -71,52 +120,33 @@
 
   <main>
     <section class="pt-36 pb-12 relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
         <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
         <h1 class="reveal font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">All Projects</h1>
         <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">A categorized look at my work across Logo Design, Brand Identity, Social Media Design, Motion Graphics, Video Editing, Print Design and Packaging. Click any video to watch it with sound.</p>
         <div class="reveal flex flex-wrap gap-2">
           <template x-for="f in filterOptions" :key="f.value">
-            <button
-              @click="filter = f.value"
-              :id="f.value"
-              :class="filter === f.value ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
-              class="text-sm px-4 py-1.5 rounded-full border transition-colors"
-              x-text="f.label">
-            </button>
+            <button @click="filter = f.value" :id="f.value" :class="filter === f.value ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'" class="text-sm px-4 py-1.5 rounded-full border transition-colors" x-text="f.label"></button>
           </template>
         </div>
       </div>
     </section>
 
     <section class="pb-24">
-      <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-6">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <template x-for="p in allProjects" :key="p.id">
-            <div
-              x-show="filter === 'all' || p.category === filter"
-              x-transition:enter="transition ease-out duration-300"
-              x-transition:enter-start="opacity-0 scale-95 translate-y-2"
-              x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-              x-transition:leave="transition ease-in duration-200"
-              x-transition:leave-start="opacity-100 scale-100"
-              x-transition:leave-end="opacity-0 scale-95">
-              <article class="project-card group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+            <div x-show="filter === 'all' || p.category === filter" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95 translate-y-2" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+              <article class="project-card group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors tilt">
                 <button @click="open(p)" class="block photo-frame w-full h-52 text-left" :aria-label="'Open ' + p.title">
-                  <template x-if="p.video">
-                    <video class="w-full h-full object-cover" autoplay muted loop playsinline :src="p.video"></video>
-                  </template>
-                  <template x-if="!p.video">
-                    <img :src="p.img" :alt="p.title" loading="lazy"/>
-                  </template>
+                  <template x-if="p.video"><video class="w-full h-full object-cover" autoplay muted loop playsinline :src="p.video"></video></template>
+                  <template x-if="!p.video"><img :src="p.img" :alt="p.title" loading="lazy"/></template>
                 </button>
                 <div class="p-6">
                   <div class="flex flex-wrap gap-2 mb-3">
                     <template x-for="tag in p.tags" :key="tag">
-                      <span class="text-xs px-2.5 py-1 rounded-full"
-                        :class="tag === p.categoryLabel ? 'bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'"
-                        x-text="tag"></span>
+                      <span class="text-xs px-2.5 py-1 rounded-full" :class="tag === p.categoryLabel ? 'bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'" x-text="tag"></span>
                     </template>
                   </div>
                   <button @click="open(p)" class="text-left w-full">
@@ -129,14 +159,12 @@
             </div>
           </template>
         </div>
-        <div x-show="visibleCount === 0" x-cloak class="text-center py-20">
-          <p class="text-zinc-400 text-sm">No projects in this category yet.</p>
-        </div>
+        <div x-show="visibleCount === 0" x-cloak class="text-center py-20"><p class="text-zinc-400 text-sm">No projects in this category yet.</p></div>
       </div>
     </section>
 
     <section class="pb-24">
-      <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-6">
         <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-14 text-center relative overflow-hidden">
           <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
           <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -144,7 +172,7 @@
             <p class="text-xs font-medium text-accent tracking-widest uppercase mb-4">Ready to start?</p>
             <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4">Want your project here?</h2>
             <p class="text-zinc-400 max-w-md mx-auto mb-8">I'm available for new projects. Tell me about what you're building and let's see if we're a good fit.</p>
-            <a href="index.html#contact" class="inline-flex items-center gap-2 btn-primary bg-accent text-white font-medium px-8 py-3.5 rounded-full hover:bg-accent-light transition-colors">Start a project &rarr;</a>
+            <a href="index.html#contact" class="inline-flex items-center gap-2 shimmer bg-accent text-white font-medium px-8 py-3.5 rounded-full hover:bg-accent-light transition-colors">Start a project &rarr;</a>
           </div>
         </div>
       </div>
@@ -158,7 +186,7 @@
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
         <template x-if="lb.type==='video'">
-          <video x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full rounded-2xl shadow-2xl" :src="lb.src" controls autoplay playsinline @ended="lb.open=false"></video>
+          <video x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full rounded-2xl shadow-2xl" :src="lb.src" controls playsinline @ended="lb.open=false"></video>
         </template>
         <template x-if="lb.type==='image'">
           <img x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" :src="lb.src" alt="Project preview">
@@ -167,11 +195,10 @@
     </div>
   </main>
 
-  <!-- ═══ PROJECT MODAL (details + video with sound) ═══ -->
+  <!-- PROJECT MODAL (details + video with sound) -->
   <div x-show="modalOpen" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center p-4" aria-modal="true" role="dialog">
     <div x-show="modalOpen" x-transition.opacity class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="modalOpen=false"></div>
-    <div x-show="modalOpen" x-transition
-      class="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800">
+    <div x-show="modalOpen" x-transition class="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800">
       <template x-if="selected">
         <div>
           <button @click="lb={open:true,type: selected.video?'video':'image', src: selected.video || selected.img}" class="photo-frame w-full h-56 md:h-64 rounded-t-3xl bg-zinc-900 block text-left" aria-label="Open full view">
@@ -194,29 +221,13 @@
             </div>
             <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6" x-text="selected.overview"></p>
             <div class="grid sm:grid-cols-2 gap-5">
-              <div>
-                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Objective</p>
-                <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.objective"></p>
-              </div>
-              <div>
-                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Tools used</p>
-                <div class="flex flex-wrap gap-1.5">
-                  <template x-for="t in selected.tools" :key="t">
-                    <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-2.5 py-1 rounded-full" x-text="t"></span>
-                  </template>
-                </div>
-              </div>
-              <div>
-                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Deliverables</p>
-                <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.deliverables"></p>
-              </div>
-              <div>
-                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Outcomes</p>
-                <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.outcomes"></p>
-              </div>
+              <div><p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Objective</p><p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.objective"></p></div>
+              <div><p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Tools used</p><div class="flex flex-wrap gap-1.5"><template x-for="t in selected.tools" :key="t"><span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-2.5 py-1 rounded-full" x-text="t"></span></template></div></div>
+              <div><p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Deliverables</p><p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.deliverables"></p></div>
+              <div><p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2">Outcomes</p><p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed" x-text="selected.outcomes"></p></div>
             </div>
             <div class="flex flex-col sm:flex-row gap-3 mt-7">
-              <a :href="'case-study.html?id=' + selected.id" class="inline-flex items-center justify-center gap-2 btn-primary bg-accent text-white font-medium px-6 py-3 rounded-full hover:bg-accent-light transition-colors">Read the full case study →</a>
+              <a :href="'case-study.html?id=' + selected.id" class="inline-flex items-center justify-center gap-2 shimmer bg-accent text-white font-medium px-6 py-3 rounded-full hover:bg-accent-light transition-colors">Read the full case study →</a>
               <a href="index.html#contact" class="inline-flex items-center justify-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-6 py-3 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">Start a similar project</a>
             </div>
           </div>
@@ -226,9 +237,9 @@
   </div>
 
   <footer class="border-t border-zinc-100 dark:border-zinc-900">
-    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-sm text-zinc-400">&copy; <span id="year"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
-      <p class="text-xs text-zinc-500">Built with Tailwind CSS &amp; Alpine.js</p>
+      <p class="text-xs text-zinc-500">Built with <a href="https://tailwindcss.com" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Tailwind CSS</a> &amp; <a href="https://alpinejs.dev" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Alpine.js</a></p>
     </div>
   </footer>
 
@@ -244,14 +255,14 @@
         lb:{open:false,type:'',src:''},
 
         filterOptions: [
-          { value: 'all',        label: 'All (10)' },
-          { value: 'logo',       label: 'Logo Design' },
-          { value: 'brand',      label: 'Brand Identity' },
-          { value: 'social',     label: 'Social Media' },
-          { value: 'motion',     label: 'Motion Graphics' },
-          { value: 'video',      label: 'Video Editing' },
-          { value: 'print',      label: 'Print Design' },
-          { value: 'packaging',  label: 'Packaging' },
+          { value: 'all', label: 'All (10)' },
+          { value: 'logo', label: 'Logo Design' },
+          { value: 'brand', label: 'Brand Identity' },
+          { value: 'social', label: 'Social Media' },
+          { value: 'motion', label: 'Motion Graphics' },
+          { value: 'video', label: 'Video Editing' },
+          { value: 'print', label: 'Print Design' },
+          { value: 'packaging', label: 'Packaging' },
         ],
 
         allProjects: [
@@ -262,7 +273,6 @@
             tools:['Adobe Illustrator','Adobe Photoshop'],
             deliverables:'Primary logo, monogram, favicon set, black & white versions.',
             outcomes:'Adopted as the studio’s core mark across web and print.' },
-
           { id:2, title:'Vertex Wordmark', category:'logo', categoryLabel:'Logo Design', tags:['Logo Design','Wordmark'], img:'img/work%206.PNG', year:'2024',
             desc:'A bold typographic wordmark for a tech startup.',
             overview:'A custom letterform wordmark with tight kerning and a distinctive cut, giving the startup a confident, modern identity.',
@@ -270,7 +280,6 @@
             tools:['Adobe Illustrator'],
             deliverables:'Wordmark, horizontal & stacked lockups, color variants.',
             outcomes:'Used on the product, pitch deck and social avatars.' },
-
           { id:3, title:'Bloom Naturals Identity', category:'brand', categoryLabel:'Brand Identity', tags:['Brand Identity','Guidelines'], img:'img/work%201.jpeg', year:'2025',
             desc:'Full visual identity for a natural skincare brand.',
             overview:'Logo, earthy color palette, serif-led typography and a brand guideline document covering tone, spacing and usage.',
@@ -278,7 +287,6 @@
             tools:['Adobe Illustrator','Adobe InDesign','Adobe Photoshop'],
             deliverables:'Logo suite, palette, type system, 12-page brand guide.',
             outcomes:'Brand launched across 8 SKUs and a 20k-follower social account.' },
-
           { id:4, title:'Bloom Social Campaign', category:'social', categoryLabel:'Social Media Design', tags:['Social Media','Carousel'], img:'img/work%207.jpeg', year:'2025',
             desc:'A 12-post carousel campaign for a product launch.',
             overview:'A cohesive set of posts, stories and carousel ads with a clear template system the client can reuse.',
@@ -286,7 +294,6 @@
             tools:['Adobe Photoshop','CapCut','Instagram Edit'],
             deliverables:'12 feed posts, 6 stories, 3 carousel ads.',
             outcomes:'+38% engagement and a sold-out first drop.' },
-
           { id:5, title:'Aurora Logo Reveal', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Animation'], video:'img/work%202.MP4', year:'2025',
             desc:'A 6-second animated logo reveal for a launch.',
             overview:'A smooth logo animation with particle accents and a confident beat, built for intros and event screens.',
@@ -294,7 +301,6 @@
             tools:['Adobe After Effects','Adobe Illustrator'],
             deliverables:'6s logo reveal, 3 aspect ratios, transparent version.',
             outcomes:'Used as the opener for every launch video.' },
-
           { id:6, title:'Pulse Explainer', category:'motion', categoryLabel:'Motion Graphics', tags:['Motion Graphics','Explainer'], video:'img/work%204.MP4', year:'2024',
             desc:'A 60-second explainer animation.',
             overview:'A clean 2D explainer that breaks a complex service into simple, animated steps with on-brand typography.',
@@ -302,7 +308,6 @@
             tools:['Adobe After Effects','Adobe Illustrator'],
             deliverables:'60s explainer, captioned version, GIF cuts.',
             outcomes:'Lifted homepage time-on-page by 45%.' },
-
           { id:7, title:'Product Launch Film', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Commercial'], video:'img/work%2010.MP4', year:'2025',
             desc:'A 90-second promotional launch film.',
             overview:'Edited from raw footage into a punchy, music-driven story with grading, motion titles and sound design.',
@@ -310,7 +315,6 @@
             tools:['Adobe Premiere Pro','Adobe After Effects','CapCut'],
             deliverables:'90s film, 30s cutdown, vertical social edit.',
             outcomes:'Featured by the client’s HQ and shared 4k+ times.' },
-
           { id:8, title:'Event Recap', category:'video', categoryLabel:'Video Editing', tags:['Video Editing','Reels'], video:'img/work%209.MP4', year:'2024',
             desc:'A fast-paced event recap video.',
             overview:'A highlight reel edited from a full day of coverage, cut to trending audio with dynamic captions.',
@@ -318,7 +322,6 @@
             tools:['Adobe Premiere Pro','CapCut'],
             deliverables:'90s recap, 5 story cuts, thumbnail set.',
             outcomes:'Became the client’s most-watched post that quarter.' },
-
           { id:9, title:'Bloom Brochure', category:'print', categoryLabel:'Print Design', tags:['Print Design','Brochure'], img:'img/work%203.jpeg', year:'2024',
             desc:'A tri-fold brochure for a natural brand.',
             overview:'A print-ready brochure with careful grid, product photography layout and a calm, premium feel.',
@@ -326,7 +329,6 @@
             tools:['Adobe InDesign','Adobe Photoshop'],
             deliverables:'Tri-fold brochure, print-ready PDF, bleed specs.',
             outcomes:'Printed in two runs and used at 6 trade shows.' },
-
           { id:10, title:'Bloom Packaging', category:'packaging', categoryLabel:'Packaging', tags:['Packaging','Print'], img:'img/work%203.jpeg', year:'2025',
             desc:'Product packaging for a skincare line.',
             overview:'Label and box design with dielines, regulatory copy and a tactile, eco-friendly aesthetic.',
@@ -348,33 +350,29 @@
         },
 
         init() {
-          this.dark = localStorage.getItem('theme') === 'dark'
-            || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
+          this.dark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
           this.$watch('modalOpen', v => { if (!v) document.body.style.overflow = ''; });
-
           window.addEventListener('keydown', e => { if (e.key === 'Escape' && this.modalOpen) this.modalOpen = false; });
-
-          window.addEventListener('scroll', () => {
-            this.scrolled = window.scrollY > 20;
-          }, { passive: true });
-
+          window.addEventListener('scroll', () => { this.scrolled = window.scrollY > 20; }, { passive: true });
           this.$nextTick(() => {
             const obs = new IntersectionObserver(entries => {
-              entries.forEach(e => {
-                if (e.isIntersecting) {
-                  e.target.classList.add('visible');
-                  obs.unobserve(e.target);
-                }
-              });
+              entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
             }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
             document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
           });
         }
       }
     }
-
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  <script src="js/components/loader.js"></script>
+  <script src="js/components/cursor.js"></script>
+  <script src="js/animations/particles.js"></script>
+  <script src="js/animations/scroll.js"></script>
+  <script src="js/components/navbar.js"></script>
+  <script src="js/components/theme.js"></script>
+  <script src="js/animations/tilt.js"></script>
+  <script src="js/components/magnetic.js"></script>
+  <script src="js/components/reveal.js"></script>
 </body>
 </html>

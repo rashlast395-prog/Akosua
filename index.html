@@ -1,691 +1,635 @@
 <!DOCTYPE html>
-<html lang="en" x-data="app()" :class="{'dark':dark}" class="scroll-smooth">
+<html lang="en" x-data="app()" x-init="init()" :class="{ dark: dark }" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kumi Ebenezer Tenkorang — Creative Designer based in Accra, Ghana specializing in Graphic Design, Brand Identity, Motion Graphics, Video Editing, Social Media Design and Print Design.">
-<meta name="keywords" content="creative designer, graphic design, brand identity, motion graphics, video editing, social media design, print design, packaging, Accra, Ghana">
-<meta name="author" content="Kumi Ebenezer Tenkorang">
-<meta property="og:title" content="Kumi Ebenezer Tenkorang — Creative Designer">
-<meta property="og:description" content="Helping brands tell compelling stories through graphic design, motion graphics, video editing, and brand identity.">
-<meta property="og:type" content="website">
-<title>Kumi Ebenezer Tenkorang — Creative Designer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kumi Ebenezer Tenkorang — Creative Designer based in Accra, Ghana. Graphic Design, Brand Identity, Motion Graphics, Video Editing, Social Media Design and Print Design." />
+  <meta name="keywords" content="creative designer, graphic design, brand identity, motion graphics, video editing, social media design, print design, packaging, Accra, Ghana" />
+  <meta name="author" content="Kumi Ebenezer Tenkorang" />
+  <meta property="og:title" content="Kumi Ebenezer Tenkorang — Creative Designer" />
+  <meta property="og:description" content="Helping brands tell compelling stories through graphic design, motion graphics, video editing, and brand identity." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://kumidesign.com/" />
+  <title>Kumi Ebenezer Tenkorang — Creative Designer</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-<script>
-tailwind.config = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      fontFamily: { display: ['PT Sans','sans-serif'], body: ['DM Sans','sans-serif'] },
-      colors: { accent: '#FF6B2B', 'accent-light': '#FF8F5C' }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Space Grotesk','system-ui','sans-serif'],
+            body: ['Inter','system-ui','sans-serif'],
+          },
+          colors: {
+            accent: '#FF6B2B',
+            'accent-light': '#FF8F5C',
+            surface: 'var(--surface)',
+          },
+        },
+      },
     }
-  }
-}
-</script>
+  </script>
 
-<style>
-*,*::before,*::after{box-sizing:border-box}
-html,body{font-family:'DM Sans',sans-serif}
-h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif}
-body{transition:background-color .3s,color .3s}
+  <script>
+    function app() {
+      return {
+        dark: false,
+        sc: false,
+        mm: false,
+        lb: { open: false, type: '', src: '' },
+        init() {
+          try {
+            this.dark = localStorage.getItem('theme') === 'dark'
+              || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            this.$watch('dark', v => { try { localStorage.setItem('theme', v ? 'dark' : 'light'); } catch(e){} });
+            window.addEventListener('scroll', () => { this.sc = window.scrollY > 20; }, { passive: true });
+            window.addEventListener('keydown', e => { if (e.key === 'Escape') this.lb.open = false; });
+            if (typeof revealOnScroll === 'function') revealOnScroll();
+            if (typeof animateCounters === 'function') animateCounters();
+          } catch (e) { console.error('App init error:', e); }
+        }
+      };
+    }
+  </script>
 
-/* noise overlay */
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
-background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
 
-/* scrollbar */
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#FF6B2B;border-radius:99px}
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);transition:background-color .35s ease,color .35s ease}
+    h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',system-ui,sans-serif}
+    [x-cloak]{display:none!important}
 
-/* reveal on scroll */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+    /* Hero */
+    .hero-glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.55}
+    .hero-3d{transform-style:preserve-3d;will-change:transform}
 
-/* nav underline animation */
-.nl{position:relative}
-.nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .22s cubic-bezier(.4,0,.2,1)}
-.nl:hover::after,.nl.on::after{width:100%}
-.nl.on{font-weight:500}
+    /* Glass */
+    .glass{background:var(--surface-glass);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);border:1px solid var(--border)}
 
-/* shimmer button */
-.shimmer{position:relative;overflow:hidden}
-.shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1)}
-.shimmer:hover::after{left:160%}
+    /* Gradient text */
+    .gradient-text{background:linear-gradient(135deg,var(--accent),#ff9a6c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* photo frames */
-.pf{overflow:hidden;background:#d4d4d8}
-.pf img{width:100%;height:100%;object-fit:cover;display:block}
+    /* Photo */
+    .pf{position:relative;overflow:hidden;background:#d4d4d8}
+    .pf img,.pf video{width:100%;height:100%;object-fit:cover;display:block}
 
-/* card hover */
-.card-h{transition:transform .28s cubic-bezier(.4,0,.2,1),border-color .18s}
-.card-h:hover{transform:translateY(-4px)}
+    /* Card */
+    .card-h{transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .2s}
+    .card-h:hover{transform:translateY(-6px)}
 
-/* skill tag */
-.stag{transition:border-color .18s}
+    /* Nav */
+    .nl{position:relative}
+    .nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.22,1,.36,1)}
+    .nl:hover::after,.nl.on::after{width:100%}
+    .nl.on{font-weight:500}
 
-[x-cloak]{display:none!important}
-</style>
+    /* Shimmer */
+    .shimmer{position:relative;overflow:hidden}
+    .shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:left .5s cubic-bezier(.22,1,.36,1)}
+    .shimmer:hover::after{left:160%}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}.reveal-d5{transition-delay:.40s}
+
+    /* Marquee */
+    .marquee-track{display:flex;gap:2rem;width:max-content;animation:marquee 32s linear infinite}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* Loader */
+    .loader{position:fixed;inset:0;z-index:100000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.25rem;transition:opacity .6s ease,visibility .6s ease}
+    .loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-bar{width:140px;height:2px;background:var(--border);border-radius:99px;overflow:hidden;position:relative}
+    .loader-bar::after{content:'';position:absolute;left:0;top:0;height:100%;width:0;background:var(--accent);border-radius:99px;animation:loader-fill 1.6s cubic-bezier(.22,1,.36,1) forwards}
+    @keyframes loader-fill{to{width:100%}}
+
+    /* Skill tag */
+    .stag{transition:border-color .2s}
+
+    /* Focus */
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+      .reveal{opacity:1;transform:none}
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+  </style>
 </head>
 
-<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased">
+<body class="antialiased">
 
-<!-- ═══ NAV ═══ -->
-<header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
-  :class="sc?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':''">
-  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+  <!-- Loader -->
+  <div class="loader" aria-hidden="true">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="opacity:0.9">
+      <circle cx="26" cy="26" r="22" stroke="#e5e5e5" stroke-width="3"/>
+      <path d="M26 4a22 22 0 0 1 16 7" stroke="#FF6B2B" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <div class="loader-bar"></div>
+  </div>
 
-<a href="#hero" class="font-display font-bold text-xl tracking-tight relative z-10">
-  <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
-</a>
+  <!-- Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
 
-<ul class="hidden md:flex items-center gap-8 text-sm" role="list">
-  <li><a href="#about" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='about'?'on !text-zinc-900 dark:!text-white':''">About</a></li>
-  <li><a href="#services" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='services'?'on !text-zinc-900 dark:!text-white':''">Services</a></li>
-  <li><a href="#portfolio" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='portfolio'?'on !text-zinc-900 dark:!text-white':''">Portfolio</a></li>
-  <li><a href="#process" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='process'?'on !text-zinc-900 dark:!text-white':''">Process</a></li>
-  <li><a href="#testimonials" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='testimonials'?'on !text-zinc-900 dark:!text-white':''">Testimonials</a></li>
-  <li><a href="#contact" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='contact'?'on !text-zinc-900 dark:!text-white':''">Contact</a></li>
-</ul>
+  <!-- Particles -->
+  <canvas id="particles" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.6"></canvas>
 
-    <div class="flex items-center gap-3">
-      <!-- dark toggle -->
-      <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
-        <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-        <svg x-show="dark"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-      </button>
-      <!-- hire me -->
-      <a href="#contact" class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
-        Hire me <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+  <!-- Noise -->
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- ═══ NAV ═══ -->
+  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" :class="sc?'bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-sm shadow-black/5':'bg-transparent'">
+    <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+      <a href="#hero" class="font-display font-bold text-xl tracking-tight relative z-10">
+        <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
       </a>
-      <!-- hamburger -->
-      <button @click="mm=!mm" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" :aria-expanded="mm" aria-label="Toggle menu">
-        <svg x-show="!mm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg x-show="mm"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- mobile menu -->
-  <div x-show="mm" x-cloak
-    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-    class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
-<ul class="flex flex-col px-6 py-5 gap-4 text-sm font-medium" role="list">
-  <li><a href="#about" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">About</a></li>
-  <li><a href="#services" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Services</a></li>
-  <li><a href="#portfolio" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Portfolio</a></li>
-  <li><a href="#process" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Process</a></li>
-  <li><a href="#testimonials" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Testimonials</a></li>
-  <li><a href="#faq" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">FAQ</a></li>
-  <li><a href="#contact" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Contact</a></li>
-  <li class="pt-2 border-t border-zinc-100 dark:border-zinc-900">
-    <a href="#contact" @click="mm=false" class="inline-flex shimmer bg-accent text-white font-medium text-sm px-5 py-2.5 rounded-full">Hire Me →</a>
-  </li>
-</ul>
-  </div>
-</header>
-
-<main>
-
-<!-- ═══ HERO ═══ -->
-<section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
-  <div class="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-  <div class="absolute bottom-1/4 left-0 w-64 h-64 bg-zinc-200/50 dark:bg-zinc-800/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-
-  <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-
-      <div>
-        <p class="reveal text-sm font-medium text-accent tracking-widest uppercase mb-4">Available for work</p>
-        <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
-          Designing Visual Experiences That Inspire and Connect.
-        </h1>
-        <p class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10">
-          Creative Designer based in <strong class="font-medium text-zinc-700 dark:text-zinc-300">Accra, Ghana</strong> specializing in Graphic Design, Brand Identity, Motion Graphics, Video Editing, Social Media Design and Print Design.
-        </p>
-        <div class="reveal d3 flex flex-wrap gap-4">
-          <a href="#portfolio" class="shimmer inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm">
-            View Portfolio
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </a>
-          <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Hire Me</a>
-          <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Contact Me</a>
-        </div>
-        <div class="reveal d4 flex gap-8 mt-14 pt-8 border-t border-zinc-100 dark:border-zinc-900">
-          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">30+</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Projects done</p></div>
-          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">18+</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Happy clients</p></div>
-          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">4y</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Experience</p></div>
-    </div>
-  </div>
-
-  <!-- Media lightbox (video with sound + image full) -->
-  <div x-show="lb.open" x-cloak class="fixed inset-0 z-[70] flex items-center justify-center">
-    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="lb.open=false" x-transition.opacity></div>
-    <div class="relative z-10 max-w-5xl w-full px-4">
-      <button @click="lb.open=false" class="absolute -top-12 right-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors" aria-label="Close">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-      <template x-if="lb.type==='video'">
-        <video x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full rounded-2xl shadow-2xl" :src="lb.src" controls autoplay playsinline @ended="lb.open=false"></video>
-      </template>
-      <template x-if="lb.type==='image'">
-        <img x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" :src="lb.src" alt="Project preview">
-      </template>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ SERVICES ═══ -->
-<section id="services" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mb-14">
-      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">What I do</p>
-      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Services</h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-6">
-
-      <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
-          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Graphic Design</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Marketing materials, posters, flyers, banners and digital graphics that capture attention and communicate your message clearly.</p>
-      </article>
-
-      <article class="reveal d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
-          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Brand Identity</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Logos, color palettes, typography and brand guidelines that make your brand memorable and consistent across every touchpoint.</p>
-      </article>
-
-      <article class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
-          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Motion Graphics</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Logo animations, explainer animations and social animations that bring your brand to life with movement and energy.</p>
-      </article>
-
-      <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
-          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Video Editing</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Promotional videos, reels, YouTube editing and commercials that tell compelling stories and drive real engagement.</p>
-      </article>
-
-      <article class="reveal d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
-          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Social Media Design</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Posts, stories, ads and carousels crafted to stop the scroll and build meaningful connections with your audience.</p>
-      </article>
-
-      <article class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
-          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9a2 2 0 00-2 2v1m-4 9v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5a2 2 0 00-2 2z"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Print Design</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Brochures, business cards, packaging and banners designed for maximum impact both online and offline.</p>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ PORTFOLIO ═══ -->
-<section id="portfolio" class="py-24" x-data="{ lb:{open:false,type:'',src:''} }" @keydown.escape.window="lb.open=false">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
-      <div>
-        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
-        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Selected work</h2>
-      </div>
-      <a href="projects.html" class="reveal d1 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors self-start sm:self-auto nl">All projects →</a>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-6">
-
-      <article class="card-h reveal d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent md:row-span-2">
-        <button @click="lb={open:true,type:'image',src:'img/work%205.PNG'}" class="pf w-full h-64 md:h-80 block text-left" aria-label="View Aurora Studio brand identity full size">
-          <img src="img/work%205.PNG" alt="Brand Identity — Kumi Ebenezer Tenkorang" loading="lazy">
+      <ul class="hidden md:flex items-center gap-8 text-sm" role="list">
+        <li><a href="#about" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='about'?'on !text-zinc-900 dark:!text-white':''">About</a></li>
+        <li><a href="#services" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='services'?'on !text-zinc-900 dark:!text-white':''">Services</a></li>
+        <li><a href="#portfolio" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='portfolio'?'on !text-zinc-900 dark:!text-white':''">Portfolio</a></li>
+        <li><a href="#process" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='process'?'on !text-zinc-900 dark:!text-white':''">Process</a></li>
+        <li><a href="#testimonials" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='testimonials'?'on !text-zinc-900 dark:!text-white':''">Testimonials</a></li>
+        <li><a href="#contact" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='contact'?'on !text-zinc-900 dark:!text-white':''">Contact</a></li>
+      </ul>
+      <div class="flex items-center gap-3">
+        <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
+          <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg x-show="dark"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
         </button>
-        <div class="p-7">
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Logo Design</span>
-            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Brand Identity</span>
-          </div>
-          <a href="projects.html#brand">
-            <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2">Aurora Studio — Brand Identity</h3>
-          </a>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">A complete visual identity for a creative studio: logo system, color palette, typography and brand guidelines. Built for memorability and consistency across every channel.</p>
-          <a href="projects.html#brand" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-        </div>
-      </article>
-
-      <article class="card-h reveal d2 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <button @click="lb={open:true,type:'video',src:'img/work%202.MP4'}" class="pf w-full h-48 block text-left cursor-pointer" aria-label="Play Pulse — Animated Logo Reveal with sound">
-          <video class="w-full h-full object-cover pointer-events-none" autoplay muted loop playsinline src="img/work%202.MP4"></video>
+        <a href="#contact" class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Hire me <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <button @click="mm=!mm" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" :aria-expanded="mm" aria-label="Toggle menu">
+          <svg x-show="!mm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg x-show="mm"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
-        <div class="p-6">
-          <div class="flex flex-wrap gap-2 mb-3">
-            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Motion Graphics</span>
-            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Animation</span>
-          </div>
-          <a href="projects.html#motion">
-            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Pulse — Animated Logo Reveal</h3>
-          </a>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A dynamic logo animation created in Adobe After Effects for a tech startup launch event, with smooth transitions and modern visual effects. Click to watch with sound.</p>
-          <button @click="lb={open:true,type:'video',src:'img/work%202.MP4'}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Watch with sound →</button>
-        </div>
-      </article>
-
-      <article class="card-h reveal d3 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <button @click="lb={open:true,type:'image',src:'img/work%207.jpeg'}" class="pf w-full h-48 block text-left" aria-label="View Bloom social campaign full size">
-          <img src="img/work%207.jpeg" alt="Social Media Design — Campaign" loading="lazy">
-        </button>
-        <div class="p-6">
-          <div class="flex flex-wrap gap-2 mb-3">
-            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Social Media</span>
-            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Carousel</span>
-          </div>
-          <a href="projects.html#social">
-            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Bloom — Social Media Campaign</h3>
-          </a>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A set of eye-catching posts, stories and carousel ads designed to boost engagement and drive conversions for a lifestyle brand.</p>
-          <a href="projects.html#social" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project →</a>
-        </div>
-      </article>
-
+      </div>
+    </nav>
+    <div x-show="mm" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900">
+      <ul class="flex flex-col px-6 py-5 gap-4 text-sm font-medium" role="list">
+        <li><a href="#about" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">About</a></li>
+        <li><a href="#services" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Services</a></li>
+        <li><a href="#portfolio" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Portfolio</a></li>
+        <li><a href="#process" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Process</a></li>
+        <li><a href="#testimonials" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Testimonials</a></li>
+        <li><a href="#faq" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">FAQ</a></li>
+        <li><a href="#contact" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Contact</a></li>
+        <li class="pt-2 border-t border-zinc-100 dark:border-zinc-900"><a href="#contact" @click="mm=false" class="inline-flex shimmer bg-accent text-white font-medium text-sm px-5 py-2.5 rounded-full">Hire Me →</a></li>
+      </ul>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- ═══ ABOUT ═══ -->
-<section id="about" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid md:grid-cols-2 gap-16 items-center">
+  <main>
+    <!-- ═══ HERO ═══ -->
+    <section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      <div class="hero-glow top-[-10%] right-[-5%] w-[500px] h-[500px] bg-accent/20" aria-hidden="true"></div>
+      <div class="hero-glow bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-purple-500/10" aria-hidden="true"></div>
 
-      <div class="reveal order-2 md:order-1">
-        <div class="pf w-full aspect-square max-w-sm mx-auto rounded-3xl">
-          <img src="img/work%208.png" alt="Kumi Ebenezer Tenkorang" loading="lazy">
-        </div>
-      </div>
-
-      <div class="order-1 md:order-2">
-        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">About me</p>
-        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">A bit about<br>who I am</h2>
-        <p class="reveal d2 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
-          Hello! I'm Kumi Ebenezer Tenkorang, a passionate Creative Designer dedicated to transforming ideas into compelling visual experiences. My work spans branding, graphic design, motion graphics and video editing. Every project is approached with creativity, strategic thinking and attention to detail so that businesses and individuals can communicate their message effectively.
-        </p>
-        <p class="reveal d3 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">
-          I strive to deliver designs that are memorable, functional and visually engaging. Based in Accra, Ghana, I help brands tell compelling stories through graphic design, motion graphics, video editing and brand identity.
-        </p>
-        <div class="reveal d4">
-          <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-3">Skills</p>
-          <div class="flex flex-wrap gap-2" role="list" aria-label="Skills">
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Graphic Design</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Branding</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Typography</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Layout Design</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Motion Graphics</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Animation</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Video Editing</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Social Media Design</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Print Design</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Creativity</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Communication</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Problem Solving</span>
-            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Time Management</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ SOFTWARE ═══ -->
-<section id="software" class="py-24">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mb-14">
-      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Tools I use</p>
-      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Software</h2>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe Photoshop</p>
-        <p class="text-xs text-accent font-medium mb-3">Expert</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Image editing &amp; compositing</p>
-      </div>
-      <div class="reveal d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe Illustrator</p>
-        <p class="text-xs text-accent font-medium mb-3">Expert</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Vector graphics &amp; logos</p>
-      </div>
-      <div class="reveal d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe InDesign</p>
-        <p class="text-xs text-accent font-medium mb-3">Advanced</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Layout &amp; print design</p>
-      </div>
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe Premiere Pro</p>
-        <p class="text-xs text-accent font-medium mb-3">Advanced</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Professional video editing</p>
-      </div>
-      <div class="reveal d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe After Effects</p>
-        <p class="text-xs text-accent font-medium mb-3">Advanced</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Motion graphics &amp; animation</p>
-      </div>
-      <div class="reveal d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">CapCut</p>
-        <p class="text-xs text-accent font-medium mb-3">Expert</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Fast video editing &amp; reels</p>
-      </div>
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center">
-        <p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Instagram Edit</p>
-        <p class="text-xs text-accent font-medium mb-3">Advanced</p>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400">Social content creation</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ TESTIMONIALS ═══ -->
-<section id="testimonials" class="py-24">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mb-14">
-      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Social proof</p>
-      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">What clients say</h2>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-6">
-
-      <blockquote class="reveal d1 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
-        <div class="flex gap-0.5 mb-5" aria-label="5 stars">
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 italic">"Kumi built our full brand identity from scratch — logo, palette, guidelines — and it completely transformed how customers see us. Thoughtful, strategic and a joy to work with."</p>
-        <footer class="flex items-center gap-3">
-          <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=11" alt="Ama Owusu" loading="lazy"></div>
+      <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 w-full">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <p class="font-medium text-sm text-zinc-900 dark:text-white">Ama Owusu</p>
-            <p class="text-xs text-zinc-500">Founder, Bloom Naturals</p>
+            <p class="reveal text-sm font-medium text-accent tracking-widest uppercase mb-5">Available for work</p>
+            <h1 class="reveal reveal-d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
+              Designing Visual Experiences That Inspire and Connect.
+            </h1>
+            <p class="reveal reveal-d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-lg mb-10">
+              Creative Designer based in <strong class="font-medium text-zinc-700 dark:text-zinc-300">Accra, Ghana</strong> specializing in Graphic Design, Brand Identity, Motion Graphics, Video Editing, Social Media Design and Print Design.
+            </p>
+            <div class="reveal reveal-d3 flex flex-wrap gap-4">
+              <a href="#portfolio" class="shimmer inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm magnetic">View Portfolio <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+              <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Hire Me</a>
+              <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Contact Me</a>
+            </div>
+            <div class="reveal reveal-d4 flex gap-8 sm:gap-10 mt-14 pt-8 border-t border-zinc-100 dark:border-zinc-900">
+              <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white" data-count="30">30</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 uppercase tracking-wide">Projects done</p></div>
+              <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white" data-count="18">18</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 uppercase tracking-wide">Happy clients</p></div>
+              <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white" data-count="4">4</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1 uppercase tracking-wide">Years experience</p></div>
+            </div>
           </div>
-        </footer>
-      </blockquote>
-
-      <blockquote class="reveal d2 bg-zinc-900 dark:bg-zinc-800 rounded-2xl p-7 border border-zinc-800">
-        <div class="flex gap-0.5 mb-5" aria-label="5 stars">
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-6 italic">"Working with Kumi is a dream. He asks the right questions, moves fast, and the final result always exceeds what we imagined. Our best creative hire of the year."</p>
-        <footer class="flex items-center gap-3">
-          <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=52" alt="Kwame Mensah" loading="lazy"></div>
-          <div>
-            <p class="font-medium text-sm text-white">Kwame Mensah</p>
-            <p class="text-xs text-zinc-500">Marketing Lead, Pulse</p>
-          </div>
-        </footer>
-      </blockquote>
-
-      <blockquote class="reveal d3 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
-        <div class="flex gap-0.5 mb-5" aria-label="5 stars">
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 italic">"We had a tight deadline for our product launch video. Kumi turned it around with motion graphics and edits that looked premium. Zero hand-holding needed."</p>
-        <footer class="flex items-center gap-3">
-          <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=47" alt="Esi Baffoe" loading="lazy"></div>
-          <div>
-            <p class="font-medium text-sm text-zinc-900 dark:text-white">Esi Baffoe</p>
-            <p class="text-xs text-zinc-500">Creative Director, Aurora Studio</p>
-          </div>
-        </footer>
-      </blockquote>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ DESIGN PROCESS ═══ -->
-<section id="process" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mb-14">
-      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">How I work</p>
-      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Design Process</h2>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">1</div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Discover</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Understand client goals, audience and requirements through a focused discovery session.</p>
-      </div>
-      <div class="reveal d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">2</div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Research</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Research the audience, market and inspiration to inform a strategic creative direction.</p>
-      </div>
-      <div class="reveal d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">3</div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Develop Concepts</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Sketch and explore multiple concepts, then refine the strongest direction into real design.</p>
-      </div>
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">4</div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Design &amp; Refine</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Craft the final visuals with attention to detail, then polish typography, color and layout.</p>
-      </div>
-      <div class="reveal d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">5</div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Present for Feedback</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Present the work, gather clear feedback and align on revisions before final delivery.</p>
-      </div>
-      <div class="reveal d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
-        <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">6</div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Deliver Final Files</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Deliver organized, production-ready files in every format you need to launch.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FAQ ═══ -->
-<section id="faq" class="py-24" x-data="{open:0}">
-  <div class="max-w-3xl mx-auto px-6">
-    <div class="mb-14 text-center">
-      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Good to know</p>
-      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Frequently Asked Questions</h2>
-    </div>
-
-    <div class="space-y-4">
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 overflow-hidden">
-        <button @click="open = open === 1 ? 0 : 1" class="w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-display font-bold text-zinc-900 dark:text-white">What services do you offer?</span>
-          <svg class="w-5 h-5 text-accent shrink-0 transition-transform" :class="open===1?'rotate-45':''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        </button>
-        <div class="faq-answer px-6" :class="open===1?'open pb-6':''"><p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">I offer Graphic Design, Brand Identity, Motion Graphics, Video Editing, Social Media Design and Print Design — from single assets to full brand systems.</p></div>
-      </div>
-
-      <div class="reveal d2 card-h bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 overflow-hidden">
-        <button @click="open = open === 2 ? 0 : 2" class="w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-display font-bold text-zinc-900 dark:text-white">How long does a project take?</span>
-          <svg class="w-5 h-5 text-accent shrink-0 transition-transform" :class="open===2?'rotate-45':''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        </button>
-        <div class="faq-answer px-6" :class="open===2?'open pb-6':''"><p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">It depends on scope. A logo or social set can be ready in a few days, while a full brand identity or video campaign usually takes 2–4 weeks.</p></div>
-      </div>
-
-      <div class="reveal d3 card-h bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 overflow-hidden">
-        <button @click="open = open === 3 ? 0 : 3" class="w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-display font-bold text-zinc-900 dark:text-white">What files will I receive?</span>
-          <svg class="w-5 h-5 text-accent shrink-0 transition-transform" :class="open===3?'rotate-45':''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        </button>
-        <div class="faq-answer px-6" :class="open===3?'open pb-6':''"><p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">You receive source files (AI, PSD, AE, PRPROJ) plus web-ready exports (PNG, JPG, MP4, PDF) and a brand guideline document where relevant.</p></div>
-      </div>
-
-      <div class="reveal d1 card-h bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 overflow-hidden">
-        <button @click="open = open === 4 ? 0 : 4" class="w-full flex items-center justify-between gap-4 p-6 text-left">
-          <span class="font-display font-bold text-zinc-900 dark:text-white">Do you work with international clients?</span>
-          <svg class="w-5 h-5 text-accent shrink-0 transition-transform" :class="open===4?'rotate-45':''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        </button>
-        <div class="faq-answer px-6" :class="open===4?'open pb-6':''"><p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Yes. I'm based in Accra, Ghana but work with clients worldwide via email, WhatsApp and video calls, and I'm flexible with time zones.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ CONTACT ═══ -->
-<section id="contact" class="py-24">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-16 relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
-
-      <div class="relative z-10 grid md:grid-cols-2 gap-12 items-start">
-
-        <div>
-          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Get in touch</p>
-          <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-white leading-tight mb-5">Let's work<br>together</h2>
-          <p class="reveal d2 text-zinc-400 leading-relaxed mb-8">I'm open to branding, graphic design, motion graphics and video editing projects — short or long-term. A logo, a full brand system, or a launch video — let's talk.</p>
-
-          <div class="reveal d3 flex flex-col gap-4">
-            <a href="tel:+233593127605" class="group flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
-              <span class="w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-              </span>
-              <span class="text-sm">+233 59 312 7605</span>
-            </a>
-            <a href="mailto:ketdidit@gmail.com" class="group flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
-              <span class="w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              </span>
-              <span class="text-sm">ketdidit@gmail.com</span>
-            </a>
-            <div class="group flex items-center gap-3 text-zinc-400">
-              <span class="w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-lg shrink-0">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              </span>
-              <span class="text-sm">Accra, Ghana</span>
+          <div class="reveal reveal-d3 relative">
+            <div class="absolute -inset-4 bg-gradient-to-tr from-accent/20 to-purple-500/10 rounded-[2rem] blur-2xl opacity-70" aria-hidden="true"></div>
+            <div class="pf aspect-square max-w-md mx-auto lg:mx-0 rounded-[2rem] shadow-2xl tilt hero-3d">
+              <img src="img/work%208.png" alt="Kumi Ebenezer Tenkorang — Creative Designer" loading="eager">
             </div>
           </div>
         </div>
 
-        <div class="reveal d2">
-          <form action="#" method="POST" novalidate>
-            <div class="flex flex-col gap-4">
-              <div class="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label for="fname" class="block text-xs font-medium text-zinc-400 mb-1.5">Name <span aria-hidden="true">*</span></label>
-                  <input type="text" id="fname" name="name" placeholder="Jane Smith" required autocomplete="name"
-                    class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors">
-                </div>
-                <div>
-                  <label for="femail" class="block text-xs font-medium text-zinc-400 mb-1.5">Email <span aria-hidden="true">*</span></label>
-                  <input type="email" id="femail" name="email" placeholder="jane@company.com" required autocomplete="email"
-                    class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors">
-                </div>
-              </div>
-              <div>
-                <label for="fsubject" class="block text-xs font-medium text-zinc-400 mb-1.5">Subject</label>
-                <input type="text" id="fsubject" name="subject" placeholder="Project inquiry"
-                  class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors">
-              </div>
-              <div>
-                <label for="fmessage" class="block text-xs font-medium text-zinc-400 mb-1.5">Message <span aria-hidden="true">*</span></label>
-                <textarea id="fmessage" name="message" rows="4" placeholder="Tell me about your project..." required
-                  class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
-              </div>
-              <button type="submit" class="shimmer w-full bg-accent text-white font-display font-bold text-sm py-3.5 rounded-xl hover:bg-accent-light transition-colors">
-                Send message →
-              </button>
-            </div>
-          </form>
+        <!-- Scroll indicator -->
+        <div class="reveal reveal-d5 hidden md:flex items-center gap-3 mt-16 text-zinc-400">
+          <span class="text-xs uppercase tracking-widest">Scroll</span>
+          <span class="relative flex h-5 w-5"><span class="absolute inline-flex h-full w-full rounded-full border border-zinc-400 opacity-75 animate-ping"></span><span class="relative inline-flex rounded-full h-5 w-5 border border-zinc-400"></span></span>
         </div>
+      </div>
 
+      <!-- Lightbox -->
+      <div x-show="lb.open" x-cloak class="fixed inset-0 z-[70] flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="lb.open=false" x-transition.opacity></div>
+        <div class="relative z-10 max-w-5xl w-full px-4">
+          <button @click="lb.open=false" class="absolute -top-12 right-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors" aria-label="Close"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+          <template x-if="lb.type==='video'">
+            <video x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full rounded-2xl shadow-2xl" :src="lb.src" controls playsinline @ended="lb.open=false"></video>
+          </template>
+          <template x-if="lb.type==='image'">
+            <img x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" :src="lb.src" alt="Project preview">
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SERVICES ═══ -->
+    <section id="services" class="py-24 bg-zinc-50/60 dark:bg-zinc-900/40 relative">
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="mb-14">
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">What I do</p>
+          <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Services</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="reveal reveal-d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Graphic Design</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Marketing materials, posters, flyers, banners and digital graphics that capture attention and communicate your message clearly.</p>
+          </article>
+          <article class="reveal reveal-d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Brand Identity</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Logos, color palettes, typography and brand guidelines that make your brand memorable and consistent across every touchpoint.</p>
+          </article>
+          <article class="reveal reveal-d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Motion Graphics</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Logo animations, explainer animations and social animations that bring your brand to life with movement and energy.</p>
+          </article>
+          <article class="reveal reveal-d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Video Editing</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Promotional videos, reels, YouTube editing and commercials that tell compelling stories and drive real engagement.</p>
+          </article>
+          <article class="reveal reveal-d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Social Media Design</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Posts, stories, ads and carousels crafted to stop the scroll and build meaningful connections with your audience.</p>
+          </article>
+          <article class="reveal reveal-d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9a2 2 0 00-2 2v1m-4 9v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5a2 2 0 00-2 2z"/></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Print Design</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Brochures, business cards, packaging and banners designed for maximum impact both online and offline.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PORTFOLIO ═══ -->
+    <section id="portfolio" class="py-24" x-data="{ lb:{open:false,type:'',src:''} }" @keydown.escape.window="lb.open=false">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+          <div>
+            <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
+            <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Selected work</h2>
+          </div>
+          <a href="projects.html" class="reveal reveal-d1 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors self-start sm:self-auto nl">All projects →</a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="card-h reveal reveal-d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent row-span-2">
+            <button @click="lb={open:true,type:'image',src:'img/work%205.PNG'}" class="pf w-full h-64 md:h-80 block text-left" aria-label="View Aurora Studio brand identity full size">
+              <img src="img/work%205.PNG" alt="Brand Identity — Kumi Ebenezer Tenkorang" loading="lazy">
+            </button>
+            <div class="p-7">
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Logo Design</span>
+                <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Brand Identity</span>
+              </div>
+              <a href="projects.html#brand"><h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2">Aurora Studio — Brand Identity</h3></a>
+              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">A complete visual identity for a creative studio: logo system, color palette, typography and brand guidelines. Built for memorability and consistency across every channel.</p>
+              <a href="projects.html#brand" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+            </div>
+          </article>
+          <article class="card-h reveal reveal-d2 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <button @click="lb={open:true,type:'video',src:'img/work%202.MP4'}" class="pf w-full h-48 block text-left cursor-pointer" aria-label="Play Pulse — Animated Logo Reveal with sound">
+              <video class="w-full h-full object-cover pointer-events-none" autoplay muted loop playsinline src="img/work%202.MP4"></video>
+            </button>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Motion Graphics</span>
+                <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Animation</span>
+              </div>
+              <a href="projects.html#motion"><h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Pulse — Animated Logo Reveal</h3></a>
+              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A dynamic logo animation created in Adobe After Effects for a tech startup launch event, with smooth transitions and modern visual effects. Click to watch with sound.</p>
+              <button @click="lb={open:true,type:'video',src:'img/work%202.MP4'}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Watch with sound →</button>
+            </div>
+          </article>
+          <article class="card-h reveal reveal-d3 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <button @click="lb={open:true,type:'image',src:'img/work%207.jpeg'}" class="pf w-full h-48 block text-left" aria-label="View Bloom social campaign full size">
+              <img src="img/work%207.jpeg" alt="Social Media Design — Campaign" loading="lazy">
+            </button>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Social Media</span>
+                <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Carousel</span>
+              </div>
+              <a href="projects.html#social"><h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Bloom — Social Media Campaign</h3></a>
+              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A set of eye-catching posts, stories and carousel ads designed to boost engagement and drive conversions for a lifestyle brand.</p>
+              <a href="projects.html#social" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project →</a>
+            </div>
+          </article>
+          <article class="card-h reveal reveal-d3 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <button @click="lb={open:true,type:'video',src:'img/work%204.MP4'}" class="pf w-full h-48 block text-left cursor-pointer" aria-label="Play Pulse Explainer with sound">
+              <video class="w-full h-full object-cover pointer-events-none" autoplay muted loop playsinline src="img/work%204.MP4"></video>
+            </button>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Motion Graphics</span>
+                <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Explainer</span>
+              </div>
+              <a href="projects.html#motion"><h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Pulse — Explainer Animation</h3></a>
+              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A clean 2D explainer that breaks a complex service into simple, animated steps with on-brand typography. Click to watch with sound.</p>
+              <button @click="lb={open:true,type:'video',src:'img/work%204.MP4'}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">Watch with sound →</button>
+            </div>
+          </article>
+          <article class="card-h reveal reveal-d4 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <button @click="lb={open:true,type:'image',src:'img/work%203.jpeg'}" class="pf w-full h-48 block text-left" aria-label="View Bloom brochure full size">
+              <img src="img/work%203.jpeg" alt="Print Design — Brochure" loading="lazy">
+            </button>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">Print Design</span>
+                <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Brochure</span>
+              </div>
+              <a href="projects.html#print"><h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">Bloom — Tri-fold Brochure</h3></a>
+              <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">A print-ready brochure with careful grid, product photography layout and a calm, premium feel.</p>
+              <a href="projects.html#print" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nl">View project →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section id="about" class="py-24 bg-zinc-50/60 dark:bg-zinc-900/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+          <div class="reveal order-2 md:order-1">
+            <div class="pf w-full aspect-square max-w-sm mx-auto rounded-3xl tilt">
+              <img src="img/work%208.png" alt="Kumi Ebenezer Tenkorang" loading="lazy">
+            </div>
+          </div>
+          <div class="order-1 md:order-2">
+            <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">About me</p>
+            <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">A bit about<br>who I am</h2>
+            <p class="reveal reveal-d2 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">Hello! I'm Kumi Ebenezer Tenkorang, a passionate Creative Designer dedicated to transforming ideas into compelling visual experiences. My work spans branding, graphic design, motion graphics and video editing. Every project is approached with creativity, strategic thinking and attention to detail so that businesses and individuals can communicate their message effectively.</p>
+            <p class="reveal reveal-d3 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">I strive to deliver designs that are memorable, functional and visually engaging. Based in Accra, Ghana, I help brands tell compelling stories through graphic design, motion graphics, video editing and brand identity.</p>
+            <div class="reveal reveal-d4">
+              <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-3">Skills</p>
+              <div class="flex flex-wrap gap-2" role="list" aria-label="Skills">
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Graphic Design</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Branding</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Typography</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Layout Design</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Motion Graphics</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Animation</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Video Editing</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Social Media Design</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Print Design</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Creativity</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Communication</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Problem Solving</span>
+                <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Time Management</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SOFTWARE ═══ -->
+    <section id="software" class="py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-14">
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Tools I use</p>
+          <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Software</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div class="reveal reveal-d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe Photoshop</p><p class="text-xs text-accent font-medium mb-3">Expert</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Image editing &amp; compositing</p></div>
+          <div class="reveal reveal-d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe Illustrator</p><p class="text-xs text-accent font-medium mb-3">Expert</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Vector graphics &amp; logos</p></div>
+          <div class="reveal reveal-d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe InDesign</p><p class="text-xs text-accent font-medium mb-3">Advanced</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Layout &amp; print design</p></div>
+          <div class="reveal reveal-d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe Premiere Pro</p><p class="text-xs text-accent font-medium mb-3">Advanced</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Professional video editing</p></div>
+          <div class="reveal reveal-d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Adobe After Effects</p><p class="text-xs text-accent font-medium mb-3">Advanced</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Motion graphics &amp; animation</p></div>
+          <div class="reveal reveal-d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">CapCut</p><p class="text-xs text-accent font-medium mb-3">Expert</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Fast video editing &amp; reels</p></div>
+          <div class="reveal reveal-d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent text-center"><p class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-1">Instagram Edit</p><p class="text-xs text-accent font-medium mb-3">Advanced</p><p class="text-xs text-zinc-500 dark:text-zinc-400">Social content creation</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TESTIMONIALS ═══ -->
+    <section id="testimonials" class="py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-14">
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Social proof</p>
+          <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">What clients say</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <blockquote class="reveal reveal-d1 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
+            <div class="flex gap-0.5 mb-5" aria-label="5 stars">
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 italic">"Kumi built our full brand identity from scratch — logo, palette, guidelines — and it completely transformed how customers see us. Thoughtful, strategic and a joy to work with."</p>
+            <footer class="flex items-center gap-3">
+              <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=11" alt="Ama Owusu" loading="lazy"></div>
+              <div><p class="font-medium text-sm text-zinc-900 dark:text-white">Ama Owusu</p><p class="text-xs text-zinc-500">Founder, Bloom Naturals</p></div>
+            </footer>
+          </blockquote>
+          <blockquote class="reveal reveal-d2 bg-zinc-900 dark:bg-zinc-800 rounded-2xl p-7 border border-zinc-800">
+            <div class="flex gap-0.5 mb-5" aria-label="5 stars">
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-6 italic">"Working with Kumi is a dream. He asks the right questions, moves fast, and the final result always exceeds what we imagined. Our best creative hire of the year."</p>
+            <footer class="flex items-center gap-3">
+              <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=52" alt="Kwame Mensah" loading="lazy"></div>
+              <div><p class="font-medium text-sm text-white">Kwame Mensah</p><p class="text-xs text-zinc-500">Marketing Lead, Pulse</p></div>
+            </footer>
+          </blockquote>
+          <blockquote class="reveal reveal-d3 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
+            <div class="flex gap-0.5 mb-5" aria-label="5 stars">
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 italic">"We had a tight deadline for our product launch video. Kumi turned it around with motion graphics and edits that looked premium. Zero hand-holding needed."</p>
+            <footer class="flex items-center gap-3">
+              <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=47" alt="Esi Baffoe" loading="lazy"></div>
+              <div><p class="font-medium text-sm text-zinc-900 dark:text-white">Esi Baffoe</p><p class="text-xs text-zinc-500">Creative Director, Aurora Studio</p></div>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PROCESS ═══ -->
+    <section id="process" class="py-24 bg-zinc-50/60 dark:bg-zinc-900/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-14">
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">How I work</p>
+          <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Design Process</h2>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="reveal reveal-d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">1</div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Discover</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Understand client goals, audience and requirements through a focused discovery session.</p>
+          </div>
+          <div class="reveal reveal-d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">2</div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Research</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Research the audience, market and inspiration to inform a strategic creative direction.</p>
+          </div>
+          <div class="reveal reveal-d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">3</div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Develop Concepts</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Sketch and explore multiple concepts, then refine the strongest direction into real design.</p>
+          </div>
+          <div class="reveal reveal-d1 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">4</div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Design &amp; Refine</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Craft the final visuals with attention to detail, then polish typography, color and layout.</p>
+          </div>
+          <div class="reveal reveal-d2 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">5</div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Present for Feedback</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Present the work, gather clear feedback and align on revisions before final delivery.</p>
+          </div>
+          <div class="reveal reveal-d3 card-h bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div class="w-11 h-11 bg-accent text-white font-display font-bold text-lg rounded-full flex items-center justify-center mb-5">6</div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Deliver Final Files</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Prepare and deliver final production-ready files, including source files and optimized exports.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FAQ ═══ -->
+    <section id="faq" class="py-24">
+      <div class="max-w-3xl mx-auto px-6">
+        <div class="mb-14">
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Questions</p>
+          <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">FAQ</h2>
+        </div>
+        <div class="space-y-4">
+          <details class="reveal reveal-d1 group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 open:border-accent transition-colors">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none text-zinc-900 dark:text-white font-medium">What is your typical turnaround time?<span class="transition group-open:rotate-45 text-accent text-xl leading-none">+</span></summary>
+            <p class="px-6 pb-6 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Turnaround depends on scope. A logo or social asset is typically 3–7 days. A full brand identity or explainer video is 2–4 weeks. I always communicate timelines clearly before starting.</p>
+          </details>
+          <details class="reveal reveal-d2 group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 open:border-accent transition-colors">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none text-zinc-900 dark:text-white font-medium">Do you work with international clients?<span class="transition group-open:rotate-45 text-accent text-xl leading-none">+</span></summary>
+            <p class="px-6 pb-6 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Yes. I work with clients globally and am comfortable with remote collaboration across time zones. Communication is clear, timely, and documented.</p>
+          </details>
+          <details class="reveal reveal-d3 group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 open:border-accent transition-colors">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none text-zinc-900 dark:text-white font-medium">What file formats do you deliver?<span class="transition group-open:rotate-45 text-accent text-xl leading-none">+</span></summary>
+            <p class="px-6 pb-6 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">I deliver print-ready PDFs, transparent PNGs, high-res JPEGs, editable source files (AI, PSD, INDD), and optimized web formats. For video, I provide MP4, MOV, and social-ready cuts.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contact" class="py-24 bg-zinc-50/60 dark:bg-zinc-900/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+          <div>
+            <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Contact</p>
+            <h2 class="reveal reveal-d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">Let's create something great together.</h2>
+            <p class="reveal reveal-d2 text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">Tell me about your project, goals and timeline. I'll get back to you within 24 hours.</p>
+            <div class="reveal reveal-d3 space-y-4">
+              <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-full bg-accent/10 text-accent flex items-center justify-center">📧</div><div><p class="text-sm font-medium text-zinc-900 dark:text-white">Email</p><p class="text-sm text-zinc-500 dark:text-zinc-400">hello@kumidesign.com</p></div></div>
+              <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-full bg-accent/10 text-accent flex items-center justify-center">📍</div><div><p class="text-sm font-medium text-zinc-900 dark:text-white">Location</p><p class="text-sm text-zinc-500 dark:text-zinc-400">Accra, Ghana</p></div></div>
+            </div>
+          </div>
+          <div class="reveal reveal-d2">
+            <form x-data="{ status: '' }" @submit.prevent="fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name: $refs.name.value, email: $refs.email.value, message: $refs.message.value }) }).then(r=>r.json()).then(d=>{ status = d.message; if(d.ok){ $refs.form.reset(); } }).catch(()=>{ status='Something went wrong.' })" class="bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800" x-ref="form">
+              <div class="space-y-4">
+                <div><label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2" for="name">Name</label><input id="name" x-ref="name" type="text" required class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition" placeholder="Your full name" /></div>
+                <div><label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2" for="email">Email</label><input id="email" x-ref="email" type="email" required class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition" placeholder="you@example.com" /></div>
+                <div><label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2" for="message">Message</label><textarea id="message" x-ref="message" rows="5" required class="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition" placeholder="Tell me about your project..."></textarea></div>
+                <button type="submit" class="shimmer inline-flex items-center gap-2 bg-accent text-white font-medium px-7 py-3.5 rounded-full hover:bg-accent-light transition-colors text-sm w-full justify-center magnetic">Send Message <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></button>
+                <p x-show="status" x-text="status" x-transition class="text-sm text-center mt-2" :class="status.includes('received')?'text-green-600 dark:text-green-400':'text-red-600 dark:text-red-400'"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="border-t border-zinc-100 dark:border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="font-display font-bold text-lg tracking-tight"><span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span></a>
+        <p class="text-sm text-zinc-400">&copy; <span id="year"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
+      </div>
+      <div class="flex items-center gap-5 text-sm text-zinc-500 dark:text-zinc-400">
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-accent transition-colors" aria-label="Twitter">Twitter</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="hover:text-accent transition-colors" aria-label="LinkedIn">LinkedIn</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-accent transition-colors" aria-label="Instagram">Instagram</a>
+        <a href="https://dribbble.com" target="_blank" rel="noopener" class="hover:text-accent transition-colors" aria-label="Dribbble">Dribbble</a>
       </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-</main>
-
-<footer class="border-t border-zinc-100 dark:border-zinc-900">
-  <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-sm text-zinc-400">© <span id="yr"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
-    <p class="text-xs text-zinc-500">Built with
-      <a href="https://tailwindcss.com" rel="noopener noreferrer" target="_blank" class="hover:text-accent transition-colors">Tailwind CSS</a>
-      &amp;
-      <a href="https://alpinejs.dev" rel="noopener noreferrer" target="_blank" class="hover:text-accent transition-colors">Alpine.js</a>
-    </p>
-  </div>
-</footer>
-
-<script>
-function app() {
-  return {
-    dark: false,
-    mm: false,
-    sc: false,
-    s: 'hero',
-
-    init() {
-      // dark mode
-      this.dark = localStorage.getItem('theme') === 'dark' ||
-        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      this.$watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
-
-      // scroll
-      window.addEventListener('scroll', () => {
-        this.sc = window.scrollY > 20;
-        this.updateSection();
-      }, { passive: true });
-
-      // reveal
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-      // year
-      document.getElementById('yr').textContent = new Date().getFullYear();
-    },
-
-    updateSection() {
-      const atBottom = (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 60;
-      if (atBottom) { this.s = 'contact'; return; }
-      const ids = ['contact','faq','testimonials','process','portfolio','about','services','hero'];
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 130) { this.s = id; return; }
-      }
-    }
-  }
-}
-</script>
-
+  <script src="js/components/loader.js"></script>
+  <script src="js/components/cursor.js"></script>
+  <script src="js/animations/particles.js"></script>
+  <script src="js/animations/scroll.js"></script>
+  <script src="js/components/navbar.js"></script>
+  <script src="js/components/theme.js"></script>
+  <script src="js/animations/tilt.js"></script>
+  <script src="js/components/magnetic.js"></script>
+  <script src="js/components/reveal.js"></script>
+  <script>
+    try {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      animateCounters();
+    } catch(e) { console.error('Footer init error:', e); }
+  </script>
 </body>
 </html>

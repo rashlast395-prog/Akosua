@@ -1,75 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ dark: localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches), scrolled:false, mobileMenu:false }" :class="{'dark':dark}" x-init="$watch('dark',v=>localStorage.setItem('theme',v?'dark':'light'));window.addEventListener('scroll',()=>scrolled=window.scrollY>20,{passive:true})" class="scroll-smooth">
+<html lang="en" x-data="{ dark: localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches), scrolled:false, mobileMenu:false }" :class="{ dark:dark }" x-init="$watch('dark',v=>localStorage.setItem('theme',v?'dark':'light'));window.addEventListener('scroll',()=>{scrolled=window.scrollY>20},{passive:true})" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Kumi Ebenezer Tenkorang — Creative Designer blog. Thoughts on graphic design, branding, motion graphics and video editing."/>
-  <meta name="author" content="Kumi Ebenezer Tenkorang"/>
-  <meta property="og:title" content="Blog — Kumi Ebenezer Tenkorang"/>
-  <meta property="og:type" content="website"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kumi Ebenezer Tenkorang — Creative Designer blog. Thoughts on graphic design, branding, motion graphics and video editing." />
+  <meta name="author" content="Kumi Ebenezer Tenkorang" />
+  <meta property="og:title" content="Blog — Kumi Ebenezer Tenkorang" />
+  <meta property="og:type" content="website" />
   <title>Blog — Kumi Ebenezer Tenkorang</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
   <script>
-    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['PT Sans','sans-serif'],body:['DM Sans','sans-serif']},colors:{accent:'#FF6B2B','accent-light':'#FF8F5C'}}}}
+    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['Space Grotesk','system-ui','sans-serif'],body:['Inter','system-ui','sans-serif']},colors:{accent:'#FF6B2B','accent-light':'#FF8F5C'}}}}
   </script>
+
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+
   <style>
-    *,*::before,*::after{box-sizing:border-box;}
-    html{font-family:'DM Sans',sans-serif;}
-    h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif;}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1);}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    .reveal-delay-1{transition-delay:.08s;}.reveal-delay-2{transition-delay:.16s;}.reveal-delay-3{transition-delay:.24s;}.reveal-delay-4{transition-delay:.32s;}.reveal-delay-5{transition-delay:.4s;}.reveal-delay-6{transition-delay:.48s;}
-    .nav-link{position:relative;}
-    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.4,0,.2,1);}
-    .nav-link:hover::after{width:100%;}
-    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#FF6B2B;border-radius:99px;}
-    body{transition:background-color .3s,color .3s;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
-    .card{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .2s;}
-    .card:hover{transform:translateY(-3px);}
-    .btn-primary{position:relative;overflow:hidden;}
-    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1);}
-    .btn-primary:hover::after{left:160%;}
-    [x-cloak]{display:none!important;}
-    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
-    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);transition:background-color .35s ease,color .35s ease}
+    h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',system-ui,sans-serif}
+    [x-cloak]{display:none!important}
+
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}.reveal-d5{transition-delay:.40s}.reveal-d6{transition-delay:.48s}
+
+    .card{transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .2s}
+    .card:hover{transform:translateY(-4px)}
+    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7}
+    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+    .nav-link{position:relative}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.22,1,.36,1)}
+    .nav-link:hover::after{width:100%}
+    .btn-primary{position:relative;overflow:hidden}
+    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:left .5s cubic-bezier(.22,1,.36,1)}
+    .btn-primary:hover::after{left:160%}
+
+    .marquee-track{display:flex;gap:2rem;width:max-content;animation:marquee 32s linear infinite}
+
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+    @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
 </head>
-<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
+
+<body class="antialiased">
 
   <!-- NAV -->
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-    :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
-    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
-      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10" aria-label="Back to home">
-        <span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span>
-      </a>
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl shadow-sm shadow-black/5':'bg-transparent'">
+    <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10"><span class="text-zinc-900 dark:text-white">Kumi</span><span class="text-accent">Design</span></a>
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium" role="list">
         <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
         <li><a href="projects.html" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Work</a></li>
         <li><a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About</a></li>
-        <li><a href="blog.html" class="nav-link text-accent font-medium" style="--tw-text-opacity:1">Blog</a></li>
+        <li><a href="blog.html" class="nav-link text-accent font-medium">Blog</a></li>
         <li><a href="index.html#contact" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Contact</a></li>
       </ul>
       <div class="flex items-center gap-3">
         <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
-          <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg x-show="dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
         </button>
-        <a href="index.html#contact" class="hidden md:inline-flex items-center gap-2 btn-primary bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
-          Hire me <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
+        <a href="index.html#contact" class="hidden md:inline-flex items-center gap-2 btn-primary bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Hire me <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
         <button @click="mobileMenu=!mobileMenu" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" :aria-expanded="mobileMenu" aria-label="Toggle menu">
-          <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <svg x-show="!mobileMenu" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg x-show="mobileMenu" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </nav>
-    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900">
       <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium" role="list">
         <li><a href="index.html#services" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Services</a></li>
         <li><a href="projects.html" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Work</a></li>
@@ -81,17 +93,13 @@
   </header>
 
   <main>
-
-    <!-- HERO BLOG -->
     <section class="pt-36 pb-16 relative overflow-hidden">
       <div class="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-      <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
         <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Writing</p>
-        <h1 class="reveal reveal-delay-1 font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">The Blog</h1>
-        <p class="reveal reveal-delay-2 text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">Thoughts on UI/UX design, frontend development, and the realities of full-time freelancing. No fluff.</p>
-
-        <!-- Filter tags -->
-        <div class="reveal reveal-delay-3 flex flex-wrap gap-2 mt-8" x-data="{active:'all'}">
+        <h1 class="reveal reveal-d1 font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">The Blog</h1>
+        <p class="reveal reveal-d2 text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">Thoughts on UI/UX design, frontend development, and the realities of full-time freelancing. No fluff.</p>
+        <div class="reveal reveal-d3 flex flex-wrap gap-2 mt-8" x-data="{active:'all'}">
           <button @click="active='all'" :class="active==='all'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'" class="text-sm px-4 py-1.5 rounded-full border transition-colors">All</button>
           <button @click="active='design'" :class="active==='design'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'" class="text-sm px-4 py-1.5 rounded-full border transition-colors">Design</button>
           <button @click="active='dev'" :class="active==='dev'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'" class="text-sm px-4 py-1.5 rounded-full border transition-colors">Dev</button>
@@ -100,9 +108,8 @@
       </div>
     </section>
 
-    <!-- FEATURED ARTICLE -->
     <section class="pb-16">
-      <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-6">
         <a href="blog-article.html" class="reveal group block rounded-3xl overflow-hidden bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
           <div class="grid md:grid-cols-2">
             <div class="photo-frame h-64 md:h-auto">
@@ -122,12 +129,11 @@
       </div>
     </section>
 
-    <!-- ALL ARTICLES GRID -->
     <section class="pb-24">
-      <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-6">
         <div class="grid md:grid-cols-3 gap-6">
 
-          <article class="reveal reveal-delay-1 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+          <article class="reveal reveal-d1 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
             <div class="photo-frame w-full h-44">
               <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=700&q=80" alt="Design systems" loading="lazy"/>
             </div>
@@ -144,7 +150,7 @@
             </div>
           </article>
 
-          <article class="reveal reveal-delay-2 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+          <article class="reveal reveal-d2 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
             <div class="photo-frame w-full h-44">
               <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=700&q=80" alt="Freelance lessons" loading="lazy"/>
             </div>
@@ -161,7 +167,7 @@
             </div>
           </article>
 
-          <article class="reveal reveal-delay-3 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+          <article class="reveal reveal-d3 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
             <div class="photo-frame w-full h-44">
               <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=700&q=80" alt="Alpine.js article" loading="lazy"/>
             </div>
@@ -178,7 +184,7 @@
             </div>
           </article>
 
-          <article class="reveal reveal-delay-1 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+          <article class="reveal reveal-d1 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
             <div class="photo-frame w-full h-44">
               <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=700&q=80" alt="UX laws article" loading="lazy"/>
             </div>
@@ -195,7 +201,7 @@
             </div>
           </article>
 
-          <article class="reveal reveal-delay-2 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+          <article class="reveal reveal-d2 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
             <div class="photo-frame w-full h-44">
               <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=80" alt="Client management" loading="lazy"/>
             </div>
@@ -212,7 +218,7 @@
             </div>
           </article>
 
-          <article class="reveal reveal-delay-3 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+          <article class="reveal reveal-d3 card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
             <div class="photo-frame w-full h-44">
               <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=700&q=80" alt="Dark mode article" loading="lazy"/>
             </div>
@@ -231,35 +237,49 @@
 
         </div>
 
-        <!-- Pagination -->
         <nav class="reveal flex items-center justify-center gap-2 mt-14" aria-label="Pagination">
           <span class="w-9 h-9 flex items-center justify-center rounded-full bg-accent text-white text-sm font-medium">1</span>
           <a href="#" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-colors text-sm">2</a>
           <a href="#" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-colors text-sm">3</a>
           <span class="text-zinc-400 text-sm px-1">…</span>
           <a href="#" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-colors text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
         </nav>
       </div>
     </section>
 
+    <section class="bg-zinc-50/60 dark:bg-zinc-900/50 py-16 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6">
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-6">From the blog</p>
+        <div class="relative">
+          <div class="marquee-track">
+            <template x-for="i in [1,2,3,4,5,6]">
+              <span class="text-zinc-300 dark:text-zinc-700 text-sm whitespace-nowrap" x-text="'Design · Motion · Code · Branding · Video · Strategy · '"></span>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="border-t border-zinc-100 dark:border-zinc-900">
-    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-zinc-400">© <span id="yr"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
+    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-zinc-400">&copy; <span id="yr"></span> Kumi Ebenezer Tenkorang. All rights reserved.</p>
       <p class="text-xs text-zinc-500">Built with <a href="https://tailwindcss.com" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Tailwind CSS</a> &amp; <a href="https://alpinejs.dev" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Alpine.js</a></p>
     </div>
   </footer>
 
+  <script src="js/components/loader.js"></script>
+  <script src="js/components/cursor.js"></script>
+  <script src="js/animations/particles.js"></script>
+  <script src="js/animations/scroll.js"></script>
+  <script src="js/components/navbar.js"></script>
+  <script src="js/components/theme.js"></script>
+  <script src="js/components/magnetic.js"></script>
+  <script src="js/components/reveal.js"></script>
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
-    },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    document.getElementById('yr').textContent = new Date().getFullYear();
   </script>
-
 </body>
 </html>
